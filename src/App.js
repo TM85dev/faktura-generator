@@ -1,26 +1,42 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { PDFViewer } from '@react-pdf/renderer';
+import MyDocument from './components/pdf';
+import Navigation from './components/nav';
+import Home from './components/index';
+import Progress from './components/progress';
+import Part2 from './components/part2';
+import Part3 from './components/part3';
+import { useSelector } from 'react-redux';
 
 function App() {
+  const data = useSelector(state => state);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Router>
+        <Navigation />
+        <Switch>
+          <Route exact path="/">
+            <Progress />
+            <Home />
+          </Route>
+          <Route exact path="/part2">
+            <Progress />
+            <Part2 />
+          </Route>
+          <Route exact path="/part3">
+            <Progress />
+            <Part3 />
+          </Route>
+          <Route exact path="/pdf">
+            <PDFViewer width="100%" height="100%">
+              <MyDocument data={data} />      
+            </PDFViewer>
+          </Route>
+        </Switch>
+      </Router>
     </div>
-  );
+  )
 }
 
 export default App;
