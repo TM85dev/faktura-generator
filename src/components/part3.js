@@ -119,7 +119,7 @@ function Part3() {
         const data = {
             ...values,
             [name]: value,
-            wplacono: inputs.wplacono,
+            wplacono: Number(inputs.wplacono),
             dni_do_zaplaty: (name==="zaplacono" && value==="tak") ? 0 : termin()
         }
         setValues(data);
@@ -263,7 +263,7 @@ function Part3() {
             <div>
                 <label>
                     Wpłacono:
-                    <input type="text" value={values.wplacono} onChange={changeHandler} name="wplacono" />
+                    <input type="number" value={values.wplacono} onChange={changeHandler} name="wplacono" />
                 </label>
             </div>
             <div>

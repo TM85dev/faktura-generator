@@ -143,7 +143,6 @@ function MyDocument({ data }) {
     const slownie = (value) => {
       const kwota = converter(value).split(".");
       const calosc = kwota[0].split("");
-      const reszta = kwota[1];
       const jednosci = ["zero", "jeden", "dwa", "trzy", "cztery", "pięć", "sześć", "siedem", "osiem", "dziewięć"];
       const nastki = ["dziesięć", "jedenaście", "dwanaście", "trzynaście", "czternaście", "piętnaście", "szesnaście", "siedemnaście", "osiemnaście", "dziewiętnaście"];
       const dziesiatki = ["dzieścia", "dzieści", "dziesiąt"];
@@ -205,7 +204,7 @@ function MyDocument({ data }) {
         }
       }
       if(calosc.length === 1) {
-        const nr = Number(calosc[0])
+        const nr = Number(calosc[0]);
         return jednosci[nr];
       } else if(calosc.length === 2) {
         const nr10 = Number(calosc[0]);
@@ -240,6 +239,16 @@ function MyDocument({ data }) {
             return `${jednosci[nr1000]} ${tysiace[2]} ${setkiCalc(nr1, nr10, nr100)}`;
           }
         }
+      }
+    }
+
+    const resztaCalc = (value) => {
+      const kwota = converter(value).split(".");
+      const reszta = kwota[1];
+      if(reszta !== "00") {
+        return `${reszta}/100`;
+      } else {
+        return ""
       }
     }
 
@@ -329,16 +338,16 @@ function MyDocument({ data }) {
               <Text style={{width: 40, fontFamily: 'OpenSans-Bold', padding: 2}}>RAZEM:</Text>
             </View>
             <View>
-              <Text style={{width: 52, border: 2, borderTop: 0, padding: 2, textAlign: "right"}}>{/*suma.netto*/}</Text>
+              <Text style={{width: 53.5, border: 2, borderTop: 0, padding: 2, textAlign: "right"}}>{converter(suma.netto)}</Text>
             </View>
             <View>
-              <Text style={{width: 44}}></Text>
+              <Text style={{width: 46}}></Text>
             </View>
             <View>
-              <Text style={{width: 41, borderBottom: 2, borderLeft: 2, padding: 2, textAlign: "right"}}>{/*suma.vat*/}</Text>
+              <Text style={{width: 43, borderBottom: 2, borderLeft: 2, padding: 2, textAlign: "right"}}>{suma.vat}</Text>
             </View>
             <View>
-              <Text style={{width: 52, border: 2, borderTop: 0, fontFamily: 'OpenSans-Bold', padding: 2, textAlign: "right"}}>{/*suma.brutto*/}</Text>
+              <Text style={{width: 53, border: 2, borderTop: 0, fontFamily: 'OpenSans-Bold', padding: 2, textAlign: "right"}}>{converter(suma.brutto)}</Text>
             </View>
           </View>
 
@@ -367,7 +376,7 @@ function MyDocument({ data }) {
                 } else {
                   return (<View key={index} style={{display:"flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-end"}}>
                     <View style={{width: 39}}>
-                      <Text style={{textAlign: "right", padding: "2 6"}}>{stawka.netto}</Text>
+                      <Text style={{textAlign: "right", padding: "2 6"}}>{converter(stawka.netto)}</Text>
                     </View>
                     <View style={{width: 60, borderLeft: 1}}>
                       <Text style={{textAlign: "right", padding: "2 6"}}>{stawka.stawka_vat}</Text>
@@ -376,7 +385,7 @@ function MyDocument({ data }) {
                       <Text style={{textAlign: "right", padding: "2 6"}}>{stawka.kwota_vat}</Text>
                     </View>
                     <View style={{width: 44, borderLeft: 1}}>
-                      <Text style={{textAlign: "right", padding: "2 6"}}>{stawka.brutto}</Text>
+                      <Text style={{textAlign: "right", padding: "2 6"}}>{converter(stawka.brutto)}</Text>
                     </View>
                   </View>
                   )}
@@ -398,7 +407,7 @@ function MyDocument({ data }) {
             <View style={{width: "49%", display: "flex"}}>
               <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: "lightgray", borderTop: 1, fontFamily: "OpenSans-Bold", fontSize: 14}}>
                 <Text>Razem do zapłaty: </Text>
-                <Text>{suma.brutto} PLN</Text>
+                <Text>{converter(suma.brutto)} PLN</Text>
               </View>
               <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: "lightgray", borderBottom: 1, fontFamily: "OpenSans-Bold", fontSize: 14}}>
                 <Text>Wpłacono: </Text>
@@ -409,7 +418,7 @@ function MyDocument({ data }) {
                 <Text>{converter(suma.brutto - dane.wplacono)} PLN</Text>
               </View>
               <View style={{fontFamily: "OpenSans", fontSize: 10}}>
-                <Text>Słownie: {slownie(suma.brutto - dane.wplacono)} zł</Text>
+                <Text>Słownie: {slownie(suma.brutto - dane.wplacono)} zł {resztaCalc(suma.brutto - dane.wplacono)}</Text>
               </View>
             </View>
           </View>
