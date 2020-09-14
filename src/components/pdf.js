@@ -85,13 +85,13 @@ function MyDocument({ data }) {
         display: "flex",
         justifyContent: "center",
         height: 38,
-        padding: "2 6",
+        padding: "2 7",
         border: "1 solid black",
       },
       table_main: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: "center",
+        // alignItems: "center",
         fontFamily: "OpenSans",
         fontSize: 9.5,
         margin: "0 20",
@@ -107,7 +107,7 @@ function MyDocument({ data }) {
         justifyContent: "center",
         textAlign: "right",
         height: 20,
-        padding: "2 6",
+        padding: "2 3 2 5",
         borderLeft: 1,
         borderRight: 1
       },
@@ -121,17 +121,127 @@ function MyDocument({ data }) {
         alignItems: "center"
       },
     })
-    const dataTable = ["Lp.", "Nazwa towaru lub usługi", "Ilość", "l.m.", "Cena\nbrutto", "Wartość\nnetto", "Stawka\nVAT", "Kwota\nVAT", "Wartość\nbrutto"];
+    const dataTable = ["Lp.", "Nazwa towaru lub usługi", "Ilość", "J.m.", "Cena\nbrutto", "Wartość\nnetto", "Stawka\nVAT", "Kwota\nVAT", "Wartość\nbrutto"];
     const sprzedawca = data.sprzedawca
     const klient = data.klient;
     const przedmioty = data.przedmioty;
+    const dane = data.dane;
     const suma = data.suma;
     const kwotaVat = (brutto, netto) => {
       const suma = Number(brutto) - Number(netto);
       return suma.toFixed(2);
     };
     const dziesietne = (wartosc) => Number(wartosc).toFixed(2);
-    const stawki = Object.values(suma ? suma : {stawka_23: ""}).filter(item => (typeof(item) === "object"))
+    const stawki = Object.values(suma ? suma : {stawka_23: ""}).filter(item => (typeof(item) === "object"));
+    const termin = () => {
+      const data = dane.termin_zaplaty.split("-");
+      return `${data[2]}.${data[1]}.${data[0]}`
+    }
+    const converter = (value) => {
+      return Number(value).toFixed(2);
+    }
+    const slownie = (value) => {
+      const kwota = converter(value).split(".");
+      const calosc = kwota[0].split("");
+      const reszta = kwota[1];
+      const jednosci = ["zero", "jeden", "dwa", "trzy", "cztery", "pięć", "sześć", "siedem", "osiem", "dziewięć"];
+      const nastki = ["dziesięć", "jedenaście", "dwanaście", "trzynaście", "czternaście", "piętnaście", "szesnaście", "siedemnaście", "osiemnaście", "dziewiętnaście"];
+      const dziesiatki = ["dzieścia", "dzieści", "dziesiąt"];
+      const setki = ["", "sto", "dwieście", "sta", "set"];
+      const tysiace = ["tysiąc", "tysiące", "tysięcy"];
+      // const miliony = ["milion", "miliony", "milionów"];
+      const dziesiatkiCalc = (nr1, nr10) => {
+        if(nr10 === 0) {
+          if(nr1 === 0) {
+            return "";
+          } else {
+            return jednosci[nr1];
+          }
+        } else if(nr10 === 1) {
+          return nastki[nr1];
+        } else if(nr1 === 0) {
+          if(nr10 === 2) {
+            return `${jednosci[nr10]}${dziesiatki[0]}`;
+          } else if(nr10 === 3) {
+            return `${jednosci[nr10]}${dziesiatki[1]}`;
+          } else if(nr10 === 4) {
+            return `czter${dziesiatki[1]}`;
+          } else {
+            return `${jednosci[nr10]}${dziesiatki[2]}`;
+          }
+        } else {
+          if(nr10 === 2) {
+            return `${jednosci[nr10]}${dziesiatki[0]} ${jednosci[nr1]}`;
+          } else if(nr10 === 3) {
+            return `${jednosci[nr10]}${dziesiatki[1]} ${jednosci[nr1]}`;
+          } else if(nr10 === 4) {
+            return `czter${dziesiatki[1]} ${jednosci[nr1]}`;
+          } else {
+            return `${jednosci[nr10]}${dziesiatki[2]} ${jednosci[nr1]}`;
+          }
+        }        
+      }
+      const setkiCalc = (nr1, nr10, nr100) => {
+        if(nr100 === 0) {
+          return dziesiatkiCalc(nr1, nr10);
+        }
+        else if(nr100 === 1 || nr100 === 2) {
+          if(nr1 === 0 && nr10 === 0) {
+            return setki[nr100];
+          } else {
+            return `${setki[nr100]} ${dziesiatkiCalc(nr1, nr10)}`;
+          }
+        } else if(nr100 === 3 || nr100 === 4) {
+          if(nr1 === 0 && nr10 === 0) {
+            return `${jednosci[nr100]}${setki[3]}`
+          } else {
+            return `${jednosci[nr100]}${setki[3]} ${dziesiatkiCalc(nr1, nr10)}`;
+          }
+        } else {
+          if(nr1 === 0 && nr10 === 0) {
+            return `${jednosci[nr100]}${setki[4]}`;
+          }
+          return `${jednosci[nr100]}${setki[4]} ${dziesiatkiCalc(nr1, nr10)}`;
+        }
+      }
+      if(calosc.length === 1) {
+        const nr = Number(calosc[0])
+        return jednosci[nr];
+      } else if(calosc.length === 2) {
+        const nr10 = Number(calosc[0]);
+        const nr1 = Number(calosc[1]);
+        return dziesiatkiCalc(nr1, nr10);
+      } else if(calosc.length === 3) {
+        const nr100 = Number(calosc[0]);
+        const nr10 = Number(calosc[1]);
+        const nr1 = Number(calosc[2]);
+        return setkiCalc(nr1, nr10, nr100);
+      } else if(calosc.length === 4) {
+        const nr1000 = Number(calosc[0]);
+        const nr100 = Number(calosc[1]);
+        const nr10 = Number(calosc[2]);
+        const nr1 = Number(calosc[3]);
+        if(nr1000 === 1) {
+          if(nr1 === 0 && nr10 === 0 && nr100 === 0) {
+            return tysiace[0]; 
+          } else {
+            return `${tysiace[0]} ${setkiCalc(nr1, nr10, nr100)}`;
+          }
+        } else if(nr1000 > 1 && nr1000 < 5) {
+          if(nr1 === 0 && nr10 === 0 && nr100 === 0) {
+            return `${jednosci[nr1000]} ${tysiace[1]}`;
+          } else {
+            return `${jednosci[nr1000]} ${tysiace[1]} ${setkiCalc(nr1, nr10, nr100)}`;
+          }
+        } else {
+          if(nr1 === 0 && nr10 === 0 && nr100 === 0) {
+            return `${jednosci[nr1000]} ${tysiace[2]}`;
+          } else {
+            return `${jednosci[nr1000]} ${tysiace[2]} ${setkiCalc(nr1, nr10, nr100)}`;
+          }
+        }
+      }
+    }
 
     return(
       <Document style={styles.doc}>
@@ -175,7 +285,7 @@ function MyDocument({ data }) {
           <View style={styles.table_header}>
             {dataTable.map((item, index) => (
               <View key={index} style={styles.item_table_header}>
-                {index===1 ? <Text style={{width: 220}}>{item}</Text> : <Text>{item}</Text>}
+                {index===1 ? <Text style={{width: 203}}>{item}</Text> : <Text>{item}</Text>}
               </View>
             ))}
           </View>
@@ -184,31 +294,31 @@ function MyDocument({ data }) {
             {Object.values(przedmioty).map((przedmiot, index) => (
               <View key={index} style={styles.item_table}>
                 <View style={styles.item_table_text}>
-                  <Text style={{width: 13}}>{index + 1}</Text>
+                  <Text style={{width: 19.5}}>{index + 1}</Text>
                 </View>
                 <View style={styles.item_table_text}>
-                  <Text style={{width: 220, textAlign: "left"}}>{przedmiot.nazwa}</Text>
+                  <Text style={{width: 209, textAlign: "left"}}>{przedmiot.nazwa}</Text>
                 </View>
                 <View style={styles.item_table_text}>
-                  <Text style={{width: 20}}>{przedmiot.ilosc}</Text>
+                  <Text style={{width: 25.5}}>{przedmiot.ilosc}</Text>
                 </View>
                 <View style={styles.item_table_text}>
-                  <Text style={{width: 16}}>{przedmiot.rodzaj}</Text>
+                  <Text style={{width: 22.5}}>{przedmiot.rodzaj}</Text>
                 </View>
                 <View style={styles.item_table_text}>
-                  <Text style={{width: 28}}>{dziesietne(przedmiot.brutto)}</Text>
+                  <Text style={{width: 34}}>{dziesietne(przedmiot.brutto)}</Text>
                 </View>
                 <View style={styles.item_table_text}>
-                  <Text style={{width: 36}}>{dziesietne(przedmiot.netto)}</Text>
+                  <Text style={{width: 42}}>{dziesietne(przedmiot.wartosc_netto)}</Text>
                 </View>
                 <View style={styles.item_table_text}>
-                  <Text style={{width: 31.5}}>{przedmiot.vat}%</Text>
+                  <Text style={{width: 37.5}}>{przedmiot.vat}%</Text>
                 </View>
                 <View style={styles.item_table_text}>
-                  <Text style={{width: 27.5}}>{kwotaVat(przedmiot.brutto, przedmiot.netto)}</Text>
+                  <Text style={{width: 33.5}}>{kwotaVat(przedmiot.wartosc_brutto, przedmiot.wartosc_netto)}</Text>
                 </View>
                 <View style={styles.item_table_text}>
-                  <Text style={{width: 36}}>{przedmiot.brutto}</Text>
+                  <Text style={{width: 41.5}}>{przedmiot.wartosc_brutto}</Text>
                 </View>
               </View>
             ))}
@@ -251,11 +361,11 @@ function MyDocument({ data }) {
                   <Text style={{textAlign: "right", padding: "2 6"}}>Brutto</Text>
                 </View>
               </View>
-              {stawki.map(stawka => {
+              {stawki.map((stawka, index) => {
                 if(stawka === null) {
                   return <View></View>
                 } else {
-                  return (<View style={{display:"flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-end"}}>
+                  return (<View key={index} style={{display:"flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-end"}}>
                     <View style={{width: 39}}>
                       <Text style={{textAlign: "right", padding: "2 6"}}>{stawka.netto}</Text>
                     </View>
@@ -271,6 +381,36 @@ function MyDocument({ data }) {
                   </View>
                   )}
               })}
+            </View>
+          </View>
+
+          <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "5 20"}}>
+            <View style={{width: "49%", fontFamily: "OpenSans", fontSize: 9.5}}>
+              <View style={{display: "Flex", flexDirection: "row", justifyContent: "space-between", borderTop: 1, borderBottom: 1}}>
+                <Text>Sposób zapłaty: </Text>
+                <Text>{dane.sposob_zaplaty} {dane.dni_do_zaplaty} dni</Text>
+              </View>
+              <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between", borderBottom: 1}}>
+                <Text>Termin zapłaty:</Text>
+                <Text>{termin()}</Text>
+              </View>
+            </View>
+            <View style={{width: "49%", display: "flex"}}>
+              <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: "lightgray", borderTop: 1, fontFamily: "OpenSans-Bold", fontSize: 14}}>
+                <Text>Razem do zapłaty: </Text>
+                <Text>{suma.brutto} PLN</Text>
+              </View>
+              <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: "lightgray", borderBottom: 1, fontFamily: "OpenSans-Bold", fontSize: 14}}>
+                <Text>Wpłacono: </Text>
+                <Text>{converter(dane.wplacono)} PLN</Text>
+              </View>
+              <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: "lightgray", fontFamily: "OpenSans-Bold", fontSize: 14}}>
+                <Text>Pozostało do zapłaty: </Text>
+                <Text>{converter(suma.brutto - dane.wplacono)} PLN</Text>
+              </View>
+              <View style={{fontFamily: "OpenSans", fontSize: 10}}>
+                <Text>Słownie: {slownie(suma.brutto - dane.wplacono)} zł</Text>
+              </View>
             </View>
           </View>
         </Page>

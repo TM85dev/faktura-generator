@@ -3,26 +3,35 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setInputs, setItems } from '../actions';
 
 
-
 function NewItem({ num }) {
     const dispatch = useDispatch();
     const itemInputs = useSelector(state => state.przedmioty[num]);
+
     const changeItem = (event) => {
         const target = event.target;
         const name = target.name;
         const value = target.value;
-
-        const selected = name==="selected_price" ? value : itemInputs.selected_price;
-        const netto = name==="netto" ? Number(value) : Number(itemInputs.netto);
-        const brutto = name==="brutto" ? Number(value) : Number(itemInputs.brutto);
-        const vat = name==="vat" ? Number(value) : Number(itemInputs.vat);
-        const calcBrutto = netto + (netto * vat / 100);
-        const calcNetto = brutto - (brutto * vat / 100);
-        const data = {
+        const item = {
             ...itemInputs,
+            [name]: value
+        }
+        const selected = item.selected_price;
+        const netto = Number(item.netto);
+        const brutto = Number(item.brutto);
+        const vat = Number(item.vat);
+        const calcBrutto = selected==="brutto_selected" ? brutto : (netto + (netto * vat / 100)).toFixed(2);
+        const calcNetto = selected==="netto_selected" ? netto : (brutto - (brutto * vat / 100)).toFixed(2);
+        const ilosc = Number(item.ilosc);
+        const data = {
+            ...item,
             [name]: value,
-            netto: selected==="brutto_selected" ? calcNetto.toFixed(2) : name==="netto" ? Number(value) : Number(itemInputs.netto),
-            brutto: selected==="netto_selected" ? calcBrutto.toFixed(2) : name==="brutto" ? Number(value) : Number(itemInputs.brutto),
+            vat: vat,
+            ilosc: ilosc,
+            netto: Number(calcNetto),
+            brutto: Number(calcBrutto),
+            wartosc_netto: Number(ilosc > 0 ? (ilosc * calcNetto) : calcNetto).toFixed(2),
+            wartosc_brutto: Number(ilosc > 0 ? (ilosc * calcBrutto) : calcBrutto).toFixed(2)
+
         }
         dispatch(setItems({[num]: data}));
     }
@@ -37,7 +46,7 @@ function NewItem({ num }) {
                 <input type="number" value={itemInputs.ilosc} onChange={changeItem} name="ilosc" />
             </label><br/>
             <label>
-                Rodzaj: &nbsp;
+                J.m.: &nbsp;
                 <select value={itemInputs.rodzaj} onChange={changeItem} name="rodzaj" >
                     <option value="">wybierz</option>
                     <option value="szt.">szt.</option>
@@ -65,7 +74,7 @@ function NewItem({ num }) {
                     disabled={itemInputs.selected_price==="netto_selected" ? false : true} />
             </label><br/>
             <label>
-                Cena brutton: &nbsp;
+                Cena brutto: &nbsp;
                 <input 
                     type="number" 
                     value={itemInputs.brutto} 
@@ -97,9 +106,21 @@ function Part3() {
         const target = event.target;
         const value = target.value;
         const name = target.name;
+        const inputs = {
+            ...values,
+            [name]: value,
+        }
+        const termin = () => {
+            const data = new Date(inputs.data_wystawienia).getTime();
+            const termin = new Date(inputs.termin_zaplaty).getTime();
+            const dni = (termin - data) / 86400000
+            return dni
+        }
         const data = {
             ...values,
-            [name]: value
+            [name]: value,
+            wplacono: inputs.wplacono,
+            dni_do_zaplaty: (name==="zaplacono" && value==="tak") ? 0 : termin()
         }
         setValues(data);
         dispatch(setInputs({dane: data}));
@@ -116,14 +137,16 @@ function Part3() {
                 rodzaj: "",
                 netto: "",
                 brutto: "",
-                vat: ""
+                vat: "",
+                wartosc_netto: "",
+                wartosc_brutto: ""
             }
         }));
     }
     const saveInputs = () => {
         const all = {
-            netto: 0,
-            brutto: 0,
+            wartosc_netto: 0,
+            wartosc_brutto: 0,
             vat: 0,
             stawka_23: [],
             stawka_8: [],
@@ -131,44 +154,44 @@ function Part3() {
             stawka_0: []
         };
         Object.values(przedmioty).forEach(przedmiot => {
-            all.netto += parseFloat(przedmiot.netto);
-            all.brutto += parseFloat(przedmiot.brutto);
-            all.vat += parseFloat(przedmiot.brutto) - parseFloat(przedmiot.netto);
-            if(przedmiot.vat === "23") {
+            all.wartosc_netto += parseFloat(przedmiot.wartosc_netto);
+            all.wartosc_brutto += parseFloat(przedmiot.wartosc_brutto);
+            all.vat += parseFloat(przedmiot.wartosc_brutto) - parseFloat(przedmiot.wartosc_netto);
+            if(przedmiot.vat === 23) {
                 all.stawka_23.push(przedmiot)
-            } else if(przedmiot.vat === "8") {
+            } else if(przedmiot.vat === 8) {
                 all.stawka_8.push(przedmiot)
-            } else if(przedmiot.vat === "5") {
+            } else if(przedmiot.vat === 5) {
                 all.stawka_5.push(przedmiot)
-            } else if(przedmiot.vat === "0") {
+            } else if(przedmiot.vat === 0) {
                 all.stawka_0.push(przedmiot)
             }
             
         });
         const suma = (tablica, stawka) => {
             const suma = {
-                netto: 0,
-                brutto: 0,
+                wartosc_netto: 0,
+                wartosc_brutto: 0,
                 stawka_vat: `${stawka}%`,
                 kwota_vat: 0
             }
             tablica.forEach(przedmiot => {
-                suma.netto += parseFloat(przedmiot.netto);
-                suma.brutto += parseFloat(przedmiot.brutto);
-                suma.kwota_vat += (parseFloat(przedmiot.brutto) - parseFloat(przedmiot.netto))
+                suma.wartosc_netto += parseFloat(przedmiot.wartosc_netto);
+                suma.wartosc_brutto += parseFloat(przedmiot.wartosc_brutto);
+                suma.kwota_vat += (parseFloat(przedmiot.wartosc_brutto) - parseFloat(przedmiot.wartosc_netto))
             })
             const sumaFixed = {
-                netto: suma.netto.toFixed(2),
-                brutto: suma.brutto.toFixed(2),
+                netto: suma.wartosc_netto,
+                brutto: suma.wartosc_brutto,
                 stawka_vat: suma.stawka_vat,
-                kwota_vat: suma.kwota_vat.toFixed(2)
+                kwota_vat: Number(suma.kwota_vat).toFixed(2)
             }
             return (tablica.length > 0) ? sumaFixed : null
         }
         const parsedData = {
-            netto: all.netto.toFixed(2),
-            brutto: all.brutto.toFixed(2),
-            vat: all.vat.toFixed(2),
+            netto: all.wartosc_netto,
+            brutto: all.wartosc_brutto,
+            vat: Number(all.vat).toFixed(2),
             stawka_23: suma(all.stawka_23, 23),
             stawka_8: suma(all.stawka_8, 8),
             stawka_5: suma(all.stawka_5, 5),
@@ -210,6 +233,37 @@ function Part3() {
                         name="nr_zamowienia"
                         type="number"
                     />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Sposób zapłaty:
+                    <select value={values.sposob_zaplaty} onChange={changeHandler} name="sposob_zaplaty">
+                        <option value="">wybierz</option>
+                        <option value="przelew">przelew</option>
+                        <option value="gotówka">gotówka</option>
+                    </select>
+                </label>
+            </div>
+            <div>
+                Zapłacono: &nbsp;
+                <label>
+                    Tak <input onChange={changeHandler} type="radio" name="zaplacono" value="tak" />
+                </label>
+                <label>
+                    Nie <input onChange={changeHandler} type="radio" name="zaplacono" value="nie" />
+                </label>
+            </div>
+            <div style={{display: `${values.zaplacono==="nie" ? "" : "none"}`}}>
+                <label>
+                    Termin zapłaty: 
+                    <input type="date" value={values.termin_zaplaty} onChange={changeHandler} name="termin_zaplaty" />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Wpłacono:
+                    <input type="text" value={values.wplacono} onChange={changeHandler} name="wplacono" />
                 </label>
             </div>
             <div>

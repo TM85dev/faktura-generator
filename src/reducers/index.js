@@ -24,7 +24,12 @@ const stateValues = {
     dane: {
         miejsce_wystawienia: "",
         data_wystawienia: "",
-        nr_zamowienia: ""
+        nr_zamowienia: "",
+        sposob_zaplaty: "",
+        zaplacono: "",
+        termin_zaplaty: "",
+        dni_do_zaplaty: "",
+        wplacono: 0
     },
     przedmioty: {}
 }
