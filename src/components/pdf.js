@@ -403,7 +403,18 @@ function MyDocument({ data }) {
                 <Text>Termin zapłaty:</Text>
                 <Text>{termin()}</Text>
               </View>
+              <View style={{marginTop: 30, display: "flex", borderTop: 1, borderBottom: 1, padding: "4 2", fontFamily: "OpenSans", fontSize: 9.5}}>
+                <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                  <Text>Numer</Text>
+                  <Text>Alior Bank</Text>
+                </View>
+                <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                  <Text>rachunku</Text>
+                  <Text>12321432 34234 2342 34</Text>
+                </View>
+              </View>
             </View>
+
             <View style={{width: "49%", display: "flex"}}>
               <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: "lightgray", borderTop: 1, fontFamily: "OpenSans-Bold", fontSize: 14}}>
                 <Text>Razem do zapłaty: </Text>
@@ -421,6 +432,15 @@ function MyDocument({ data }) {
                 <Text>Słownie: {slownie(suma.brutto - dane.wplacono)} zł {resztaCalc(suma.brutto - dane.wplacono)}</Text>
               </View>
             </View>
+          </View>
+          
+          <View style={{display: "flex", flexDirection: "row", width: "100%", marginTop: 30, justifyContent: "space-around"}}>
+              <View style={{width: 200, height: 100, border: 1}}>
+                <Text style={{textAlign: "center", backgroundColor: "lightgray", color: "black", fontFamily: "OpenSans", fontSize: 9.5, padding: 1}}>Wystawił(a)</Text>
+              </View>
+              <View style={{width: 200, height: 100, border: 1}}>
+                <Text style={{textAlign: "center", backgroundColor: "lightgray", color: "black", fontFamily: "OpenSans", fontSize: 9.5, padding: 1}}>Odebrał(a)</Text>
+              </View>
           </View>
         </Page>
       </Document>

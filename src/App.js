@@ -29,9 +29,11 @@ function App() {
             <Part3 />
           </Route>
           <Route exact path="/pdf">
-            <PDFViewer width="100%" height="100%">
-              <MyDocument data={data} />      
-            </PDFViewer>
+            <div className="pdf-file">
+              <PDFViewer width="100%" height="100%">
+                <MyDocument data={data} />      
+              </PDFViewer>
+            </div>
           </Route>
         </Switch>
       </Router>

@@ -7,7 +7,9 @@ const styles = {
         width: "100%",
         height: "80px",
         justifyContent: "space-around",
-        alignItems: "center"
+        alignItems: "center",
+        position: "relative",
+        top: "50px"
     }
 }
 

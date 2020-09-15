@@ -1,0 +1,57 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+#root .pdf-file {
+    height: 100vh;
+    overflow: hidden;
+}
+
+nav {
+    position: fixed;
+    z-index: 1;
+    &>ul {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+        &>li:first-of-type {
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 20px;
+            min-width: 34px;
+            border-radius: 60px;
+            box-shadow: 0 0 0 0 white;
+            cursor: pointer;
+            div {
+                width: 34px;
+                height: 1.6px;
+                background-color: black;
+            }
+        }
+        &>li {
+            background-color: black;
+            margin: 10px 4px;
+            padding: 4px 10px;
+            box-shadow: 0 0 4px 0 black;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 0.9em;
+            a {
+                color: white;
+                text-decoration: none;
+            }
+        }
+    }
+}
