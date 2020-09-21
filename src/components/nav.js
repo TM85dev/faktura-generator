@@ -12,8 +12,8 @@ function Navigation() {
     ];
     const [hoverMenu, setHoverMenu] = useSpring(() => ({
         backgroundColor: "rgb(255, 255, 255)",
-        margin: "20px 0 0 20px",
-        padding: "0px 0px",
+        margin: "20px 0 0 14px",
+        padding: "12px 12px",
         boxShadow: "0 0 0px 0 white"
     }));
     const [hoverLine, setHoverLine] = useSprings(3, index => ({
@@ -24,7 +24,7 @@ function Navigation() {
         opacity: 0,
         width: "80px",
         marginTop: index===0 ? "100px" : "10px"
-    }))
+    }));
     const hoverMenuHandler = () => {
         setHoverMenu(() => ({
             backgroundColor: "rgb(0, 0, 0)",
@@ -45,10 +45,14 @@ function Navigation() {
         setActiveMenu(false);
     }
     const unhoverMenuHandler = () => {
+        document.querySelector("nav").style.pointerEvents = "none";
+        setTimeout(() => {
+            document.querySelector("nav").style.pointerEvents = "";
+        }, 600)
         setHoverMenu(() => ({
             backgroundColor: "rgb(255, 255, 255)",
             margin: "20px 0 0 20px",
-            padding: "0px 0px",
+            padding: "20px 14px",
             boxShadow: "0 0 0px 0 white"
         }));
         setHoverLine(index => ({
@@ -59,15 +63,12 @@ function Navigation() {
             ],
             delay: index * 100,
         }));
-        if(clickedMenu===false) {
-            setAnimLinks(index => ({
-                to: [
-                    {display: "flex", opacity: 0, marginTop: index===0 ? "120px" : "0px"},
-                    {display: "none"},
-                ],
-                config: {duration: 300}
-            }));
-        }
+        setAnimLinks(index => ({
+            to: [
+                {display: "flex", opacity: 0, marginTop: index===0 ? "120px" : "0px"},
+                {display: "none"},
+            ]
+        }));
         setActiveMenu(true);
         setClickedMenu(false);
     }
@@ -88,7 +89,6 @@ function Navigation() {
                 delay: index * 160
             }));
         }
-        
     }
     return(
         <nav>

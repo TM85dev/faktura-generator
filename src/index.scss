@@ -55,3 +55,70 @@ nav {
         }
     }
 }
+
+.progress {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 80px;
+    margin-left: 20%;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    a {
+        text-decoration: none;
+        color: black;
+        &.disabled-link {
+            pointer-events: none;
+            color: rgb(165, 165, 165);
+        }
+    }
+}
+
+.sprzedawca {
+    h1 {
+        text-align: center;
+    }
+    &>div {
+        margin-bottom: 20px;
+        label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            span {
+                padding-left: 6px;
+                width: 50%;
+                position: relative;
+                color: gray;
+                font-size: 0.8em;
+                font-weight: 700;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                letter-spacing: 1px;
+            }
+            input {
+                width: 50%;
+                height: 46px;
+                border: 0;
+                outline: none;
+                box-shadow: 0 2px 2px 0px silver;
+                padding-left: 10px;
+                transition: box-shadow 0.4s;
+                &:focus {
+                    box-shadow: 0 1px 4px 1px rgb(50, 98, 131);
+                }
+            }
+        }
+        &>span {
+            margin-top: 4px;
+            display: block;
+            text-align: center;
+        }
+    }
+}
+
+@media screen and(min-width: 500px) {
+    .progress {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+}

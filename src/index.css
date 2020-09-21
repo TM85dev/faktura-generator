@@ -72,4 +72,102 @@ nav > ul > li a {
   color: white;
   text-decoration: none;
 }
+
+.progress {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 80%;
+  height: 80px;
+  margin-left: 20%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+}
+
+.progress a {
+  text-decoration: none;
+  color: black;
+}
+
+.progress a.disabled-link {
+  pointer-events: none;
+  color: #a5a5a5;
+}
+
+.sprzedawca h1 {
+  text-align: center;
+}
+
+.sprzedawca > div {
+  margin-bottom: 20px;
+}
+
+.sprzedawca > div label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.sprzedawca > div label span {
+  padding-left: 6px;
+  width: 50%;
+  position: relative;
+  color: gray;
+  font-size: 0.8em;
+  font-weight: 700;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: 1px;
+}
+
+.sprzedawca > div label input {
+  width: 50%;
+  height: 46px;
+  border: 0;
+  outline: none;
+  -webkit-box-shadow: 0 2px 2px 0px silver;
+          box-shadow: 0 2px 2px 0px silver;
+  padding-left: 10px;
+  -webkit-transition: -webkit-box-shadow 0.4s;
+  transition: -webkit-box-shadow 0.4s;
+  transition: box-shadow 0.4s;
+  transition: box-shadow 0.4s, -webkit-box-shadow 0.4s;
+}
+
+.sprzedawca > div label input:focus {
+  -webkit-box-shadow: 0 1px 4px 1px #326283;
+          box-shadow: 0 1px 4px 1px #326283;
+}
+
+.sprzedawca > div > span {
+  margin-top: 4px;
+  display: block;
+  text-align: center;
+}
+
+@media screen and (min-width: 500px) {
+  .progress {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+  }
+}
 /*# sourceMappingURL=index.css.map */

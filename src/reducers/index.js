@@ -1,12 +1,17 @@
 
 const stateValues = {
+    progress: {
+        p1: true,
+        p2: false,
+        p3: false
+    },
     sprzedawca: {
         firma: "",
         skrot: "",
         nr_faktury: "",
         ulica: "",
         nr: "",
-        logo: "",
+        // logo: "",
         kod: '',
         miejscowosc: '',
         nip: '',
