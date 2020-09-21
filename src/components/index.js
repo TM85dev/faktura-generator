@@ -6,7 +6,7 @@ import { setInputs } from '../actions';
 
 function Input({value, name, namePL, onChange}) {
     const [focusName, setFocusName] = useSpring(() => ({
-        top: "36px", cursor: "text", color: "gray"
+        top: "40px", cursor: "text", color: "gray"
     }));
     const focusHandler = () => {
         setFocusName({
@@ -17,7 +17,7 @@ function Input({value, name, namePL, onChange}) {
     }
     const blurHandler = () => {
         setFocusName({
-            top: (value.length > 0) ? "0px" : "30px", 
+            top: (value.length > 0) ? "0px" : "40px", 
             cursor: "text", 
             color: "gray"
         });
@@ -74,6 +74,7 @@ function Home() {
     const saveInputs = () => {
         setErrors({
             ...errors,
+            ulica: isNaN(Number(values.ulica)) ? "nieprawidłowy numer" : "",
             kod: isNaN(Number(values.kod)) ? "nieprawidłowy kod" : values.kod.length!==5 ? "wymagane 5 cyfr" : "",
         })
         const p2 = {
@@ -83,6 +84,7 @@ function Home() {
         const data = {
             ...values,
             skrót: values.skrot.toUpperCase(),
+            ulica: !isNaN(Number(values.ulica)) ? values.ulica : "",
             kod: (values.kod.length===5 && !isNaN(Number(values.kod))) ? `${values.kod.slice(0, 2)}-${values.kod.slice(2)}` : "",
             nip: `${values.nip.slice(0,3)}-${values.nip.slice(3, 6)}-${values.nip.slice(6, 8)}-${values.nip.slice(8)}`,
             telefon: `${values.telefon.slice(0, 2)} ${values.telefon.slice(2, 5)}-${values.telefon.slice(5, 7)}-${values.telefon.slice(7)}` 

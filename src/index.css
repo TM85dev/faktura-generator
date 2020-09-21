@@ -107,11 +107,8 @@ nav > ul > li a {
   text-align: center;
 }
 
-.sprzedawca > div {
-  margin-bottom: 20px;
-}
-
 .sprzedawca > div label {
+  width: calc(60% - 1vw);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -122,11 +119,12 @@ nav > ul > li a {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  margin: 0 auto;
 }
 
 .sprzedawca > div label span {
   padding-left: 6px;
-  width: 50%;
+  width: 100%;
   position: relative;
   color: gray;
   font-size: 0.8em;
@@ -136,13 +134,14 @@ nav > ul > li a {
 }
 
 .sprzedawca > div label input {
-  width: 50%;
+  width: 100%;
   height: 46px;
   border: 0;
   outline: none;
   -webkit-box-shadow: 0 2px 2px 0px silver;
           box-shadow: 0 2px 2px 0px silver;
   padding-left: 10px;
+  margin-top: 4px;
   -webkit-transition: -webkit-box-shadow 0.4s;
   transition: -webkit-box-shadow 0.4s;
   transition: box-shadow 0.4s;
@@ -158,6 +157,7 @@ nav > ul > li a {
   margin-top: 4px;
   display: block;
   text-align: center;
+  min-height: 20px;
 }
 
 @media screen and (min-width: 500px) {

@@ -80,14 +80,15 @@ nav {
         text-align: center;
     }
     &>div {
-        margin-bottom: 20px;
         label {
+            width: calc(60% - 1vw);
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin: 0 auto;
             span {
                 padding-left: 6px;
-                width: 50%;
+                width: 100%;
                 position: relative;
                 color: gray;
                 font-size: 0.8em;
@@ -96,12 +97,13 @@ nav {
                 letter-spacing: 1px;
             }
             input {
-                width: 50%;
+                width: 100%;
                 height: 46px;
                 border: 0;
                 outline: none;
                 box-shadow: 0 2px 2px 0px silver;
                 padding-left: 10px;
+                margin-top: 4px;
                 transition: box-shadow 0.4s;
                 &:focus {
                     box-shadow: 0 1px 4px 1px rgb(50, 98, 131);
@@ -112,6 +114,7 @@ nav {
             margin-top: 4px;
             display: block;
             text-align: center;
+            min-height: 20px;
         }
     }
 }
