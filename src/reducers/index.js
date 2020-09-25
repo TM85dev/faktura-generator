@@ -1,7 +1,7 @@
 
 const stateValues = {
     progress: {
-        p1: true,
+        p1: false,
         p2: false,
         p3: false
     },
@@ -30,13 +30,43 @@ const stateValues = {
         miejsce_wystawienia: "",
         data_wystawienia: "",
         nr_zamowienia: "",
+        sposob_zaplaty: "wybierz",
+        zaplacono: "wybierz",
+        termin_zaplaty: "",
+        dni_do_zaplaty: "",
+        wplacono: ""
+    },
+    przedmioty: {},
+    sprzedawcaErrors: {
+        firma: "",
+        skrot: "",
+        nr_faktury: "",
+        ulica: "",
+        nr: "",
+        kod: '',
+        miejscowosc: '',
+        nip: '',
+        regon: '',
+        telefon: ''
+    },
+    klientErrors: {
+        nazwa: "",
+        ulica: "",
+        nr: "",
+        miejscowosc: "",
+        kod: "",
+        telefon: ""
+    },
+    daneErrors: {
+        miejsce_wystawienia: "",
+        data_wystawienia: "",
+        nr_zamowienia: "",
         sposob_zaplaty: "",
         zaplacono: "",
         termin_zaplaty: "",
         dni_do_zaplaty: "",
-        wplacono: 0
+        wplacono: ""
     },
-    przedmioty: {}
 }
 
 export default function setInputs(state = stateValues, action) {

@@ -1,11 +1,10 @@
 body {
+    background-color: rgb(245, 245, 245);
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    font-family: 'Courier New', Courier, monospace;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
+}
   
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
@@ -59,25 +58,41 @@ nav {
 .progress {
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 75%;
     height: 80px;
     margin-left: 20%;
+    margin-right: 5%;
     justify-content: center;
     align-items: center;
     position: relative;
     a {
         text-decoration: none;
         color: black;
+        transition: color 0.3s, font-weight 0.3s;
+        &.active {
+            color: green;
+            font-weight: 700;
+        }
         &.disabled-link {
             pointer-events: none;
             color: rgb(165, 165, 165);
         }
     }
+    hr {
+        border-top: 2px dashed lightgreen;
+        margin: 4px 0 0 0;
+        width: 20%;
+    }
 }
 
-.sprzedawca {
+.sprzedawca,
+.klient,
+.dane,
+.przedmiot {
     h1 {
         text-align: center;
+        text-transform: uppercase;
+        font-weight: 100;
     }
     &>div {
         label {
@@ -93,7 +108,6 @@ nav {
                 color: gray;
                 font-size: 0.8em;
                 font-weight: 700;
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 letter-spacing: 1px;
             }
             input {
@@ -101,13 +115,8 @@ nav {
                 height: 46px;
                 border: 0;
                 outline: none;
-                box-shadow: 0 2px 2px 0px silver;
                 padding-left: 10px;
                 margin-top: 4px;
-                transition: box-shadow 0.4s;
-                &:focus {
-                    box-shadow: 0 1px 4px 1px rgb(50, 98, 131);
-                }
             }
         }
         &>span {
@@ -115,6 +124,70 @@ nav {
             display: block;
             text-align: center;
             min-height: 20px;
+        }
+    }
+    .navigation {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 16px;
+        button, a {
+            background-color: rgb(50, 98, 131);
+            color: white;
+            padding: 4px 0px;
+            width: 100px;
+            text-decoration: none;
+            text-align: center;
+            font-size: 16px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            border: 0;
+            cursor: pointer;
+            &:disabled, &.disabled {
+                background-color: lightsteelblue;
+                pointer-events: none;
+                cursor: default;
+            }
+        }
+    }
+}
+
+.dane {
+    .sposob-zaplaty,
+    .zaplacono,
+    .przedmiot>div {
+        label {
+            position: relative;
+            .arrow {
+                position: absolute;
+                text-align: right;
+                width: max-content;
+                height: max-content;
+                top: 20px;
+                padding: 14px 5px;
+                right: 0px;
+                cursor: pointer;
+                &:hover {
+                    color: green;
+                }
+            }
+            &>div {
+                position: absolute;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                background-color: white;
+                top: 70px;
+                z-index: 1;
+                span {
+                    padding: 6px 0;
+                    text-align: center;
+                    box-shadow: 0 0 2px 0 silver;
+                    cursor: pointer;
+                    &:hover {
+                        background-color: rgb(240, 240, 240);
+
+                    }
+                }
+            }
         }
     }
 }

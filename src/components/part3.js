@@ -1,115 +1,24 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setInputs, setItems } from '../actions';
+import Input from './input';
+import InputSelect from './inputSelect';
+import NewItem from './newItem';
 
-
-function NewItem({ num }) {
-    const dispatch = useDispatch();
-    const itemInputs = useSelector(state => state.przedmioty[num]);
-
-    const changeItem = (event) => {
-        const target = event.target;
-        const name = target.name;
-        const value = target.value;
-        const item = {
-            ...itemInputs,
-            [name]: value
-        }
-        const selected = item.selected_price;
-        const netto = Number(item.netto);
-        const brutto = Number(item.brutto);
-        const vat = Number(item.vat);
-        const calcBrutto = selected==="brutto_selected" ? brutto : (netto + (netto * vat / 100)).toFixed(2);
-        const calcNetto = selected==="netto_selected" ? netto : (brutto - (brutto * vat / 100)).toFixed(2);
-        const ilosc = Number(item.ilosc);
-        const data = {
-            ...item,
-            [name]: value,
-            vat: vat,
-            ilosc: ilosc,
-            netto: Number(calcNetto),
-            brutto: Number(calcBrutto),
-            wartosc_netto: Number(ilosc > 0 ? (ilosc * calcNetto) : calcNetto).toFixed(2),
-            wartosc_brutto: Number(ilosc > 0 ? (ilosc * calcBrutto) : calcBrutto).toFixed(2)
-
-        }
-        dispatch(setItems({[num]: data}));
-    }
-    return (
-        <li>
-            <label>
-                Nazwa towaru lub usługi: &nbsp;
-                <input value={itemInputs.nazwa} onChange={changeItem} name="nazwa" />
-            </label><br/>
-            <label>
-                Ilość: &nbsp;
-                <input type="number" value={itemInputs.ilosc} onChange={changeItem} name="ilosc" />
-            </label><br/>
-            <label>
-                J.m.: &nbsp;
-                <select value={itemInputs.rodzaj} onChange={changeItem} name="rodzaj" >
-                    <option value="">wybierz</option>
-                    <option value="szt.">szt.</option>
-                    <option value="op.">op.</option>
-                </select>
-            </label><br/>
-            <div>
-                Podaj cenę <br/>
-                <label>
-                    Netto 
-                    <input type="radio" name="selected_price" value="netto_selected" onChange={changeItem} />
-                </label>
-                <label>
-                    Brutto 
-                    <input type="radio" name="selected_price" value="brutto_selected" onChange={changeItem} />
-                </label>
-            </div>
-            <label>
-                Cena netto: &nbsp;
-                <input 
-                    type="number" 
-                    value={itemInputs.netto} 
-                    onChange={changeItem} 
-                    name="netto"
-                    disabled={itemInputs.selected_price==="netto_selected" ? false : true} />
-            </label><br/>
-            <label>
-                Cena brutto: &nbsp;
-                <input 
-                    type="number" 
-                    value={itemInputs.brutto} 
-                    onChange={changeItem} 
-                    name="brutto"
-                    disabled={itemInputs.selected_price==="brutto_selected" ? false : true} />
-            </label><br/>
-            <label>
-                Stawka VAT: &nbsp;
-                <select value={itemInputs.vat} onChange={changeItem} name="vat">
-                    <option value="">wybierz</option>
-                    <option value="23">23%</option>
-                    <option value="8">8%</option>
-                    <option value="5">5%</option>
-                    <option value="0">0%</option>
-                </select>
-            </label>
-        </li>
-    )
-}
 
 function Part3() {
     const dispatch = useDispatch();
-    const [values, setValues] = useState(useSelector(state => state.dane));
-    const [inputElements, setInputElements] = useState("");
+    const dane = useSelector(state => state.dane);
+    const errors = useSelector(state => state.daneErrors);
     const przedmioty = useSelector(state => state.przedmioty);
+    const [inputElements, setInputElements] = useState("");
 
     const changeHandler = (event) => {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        const inputs = {
-            ...values,
-            [name]: value,
-        }
+        const inputs = {...dane, [name]: value};
+        const dataErrors = {...errors, [name]: value.length < 1 ? "uzupełnij" : ""};
         const termin = () => {
             const data = new Date(inputs.data_wystawienia).getTime();
             const termin = new Date(inputs.termin_zaplaty).getTime();
@@ -117,13 +26,13 @@ function Part3() {
             return dni
         }
         const data = {
-            ...values,
+            ...dane,
             [name]: value,
-            wplacono: Number(inputs.wplacono),
+            wplacono: isNaN(inputs.wplacono) ? "" : Number(inputs.wplacono),
             dni_do_zaplaty: (name==="zaplacono" && value==="tak") ? 0 : termin()
         }
-        setValues(data);
-        dispatch(setInputs({dane: data}));
+
+        dispatch(setInputs({daneErrors: dataErrors, dane: data}));
     }
     const addNewItem = () => {
         setInputElements(prevState => ([
@@ -134,7 +43,7 @@ function Part3() {
             [inputElements.length]: {
                 nazwa: "",
                 ilosc: "",
-                rodzaj: "",
+                jm: "wybierz",
                 netto: "",
                 brutto: "",
                 vat: "",
@@ -199,79 +108,67 @@ function Part3() {
         }
         dispatch(setInputs({suma: {...parsedData}}))
     }
+    const dataInputs = [
+        {inputName: "Miejsce wystawienia", valueName: dane.miejsce_wystawienia, name: "miejsce_wystawienia", type: "text", error: errors.miejsce_wystawienia},
+        {inputName: "Data wystawienia", valueName: dane.data_wystawienia, name: "data_wystawienia", type: "date", error: errors.data_wystawienia},
+        {inputName: "Nr zamówienia", valueName: dane.nr_zamowienia, name: "nr_zamowienia", type: "text", error: errors.nr_zamowienia},
+        {inputName: "Termin zapłaty", valueName: dane.termin_zaplaty, name: "termin_zaplaty", type: "date", error: errors.termin_zaplaty},
+        {inputName: "Wpłacono", valueName: dane.wplacono, name: "wplacono", type: "text", error: errors.wplacono}
+
+    ];
+
     return(
-        <div>
-            <h1>Dane do faktury:</h1>
-            <div>
-                <label>
-                    Miejsce wystawienia: 
-                    <input 
-                        value={values.miejsce_wystawienia} 
-                        onChange={changeHandler} 
-                        name="miejsce_wystawienia"
-                        type="text"
+        <div className="dane">
+            <h1>Dane do faktury</h1>
+            {dataInputs.slice(0, 2).map(item => (
+                <div key={item.name}>
+                    <Input 
+                        type={item.type}
+                        value={item.valueName}
+                        name={item.name}
+                        namePL={item.inputName.toUpperCase()}
+                        onChange={changeHandler}
+                        error={item.error}
                     />
-                </label>
+                </div>
+            ))}
+            <div className="sposob-zaplaty">
+                <InputSelect 
+                    name="sposob_zaplaty"
+                    namePL="Sposób zapłaty"
+                    value={dane.sposob_zaplaty}
+                    onChange={changeHandler}
+                    variables={["przelew", "gotówka"]}
+                    error={errors.sposob_zaplaty}
+                />
             </div>
-            <div>
-                <label>
-                    Data wystawienia: 
-                    <input 
-                        value={values.data_wystawienia} 
-                        onChange={changeHandler} 
-                        name="data_wystawienia"
-                        type="date"
+            <div className="zaplacono">
+                <InputSelect 
+                    name="zaplacono"
+                    namePL="Zapłacono"
+                    value={dane.zaplacono}
+                    onChange={changeHandler}
+                    variables={["tak", "nie"]}
+                    error={errors.zaplacono}
+                />
+            </div>
+            {dataInputs.slice(2).map((item, index) => (
+                <div key={index} style={{display: `${index===1 ? (dane.zaplacono==="nie" ? "" : "none") : ""}`}}>
+                    <Input 
+                        type={item.type}
+                        value={item.valueName}
+                        name={item.name}
+                        namePL={item.inputName.toUpperCase()}
+                        onChange={changeHandler}
+                        error={item.error}
                     />
-                </label>
-            </div>
-            <div>
-                <label>
-                    Nr zamówienia: 
-                    <input 
-                        value={values.nr_zamowienia} 
-                        onChange={changeHandler} 
-                        name="nr_zamowienia"
-                        type="number"
-                    />
-                </label>
-            </div>
-            <div>
-                <label>
-                    Sposób zapłaty:
-                    <select value={values.sposob_zaplaty} onChange={changeHandler} name="sposob_zaplaty">
-                        <option value="">wybierz</option>
-                        <option value="przelew">przelew</option>
-                        <option value="gotówka">gotówka</option>
-                    </select>
-                </label>
-            </div>
-            <div>
-                Zapłacono: &nbsp;
-                <label>
-                    Tak <input onChange={changeHandler} type="radio" name="zaplacono" value="tak" />
-                </label>
-                <label>
-                    Nie <input onChange={changeHandler} type="radio" name="zaplacono" value="nie" />
-                </label>
-            </div>
-            <div style={{display: `${values.zaplacono==="nie" ? "" : "none"}`}}>
-                <label>
-                    Termin zapłaty: 
-                    <input type="date" value={values.termin_zaplaty} onChange={changeHandler} name="termin_zaplaty" />
-                </label>
-            </div>
-            <div>
-                <label>
-                    Wpłacono:
-                    <input type="number" value={values.wplacono} onChange={changeHandler} name="wplacono" />
-                </label>
-            </div>
+                </div>
+            ))}
+
             <div>
                 <button onClick={addNewItem}>add item</button>
             </div>
-            <ol>
-                {inputElements}
-            </ol>
+            {inputElements}
             <div>
                 <button onClick={saveInputs}>save</button>
             </div>

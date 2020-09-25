@@ -11,7 +11,7 @@ function Navigation() {
         {name: "Save", path: "/save"}
     ];
     const [hoverMenu, setHoverMenu] = useSpring(() => ({
-        backgroundColor: "rgb(255, 255, 255)",
+        backgroundColor: "rgb(245, 245, 245)",
         margin: "20px 0 0 14px",
         padding: "12px 12px",
         boxShadow: "0 0 0px 0 white"
@@ -34,10 +34,10 @@ function Navigation() {
         }));
         if(activeMenu) {
             setHoverLine(index => ({
-                from: {width: "0px", backgroundColor: "rgb(255, 255, 255)"},
+                from: {width: "0px", backgroundColor: "rgb(245, 245, 245)"},
                 to: [
-                    {width: "0px", backgroundColor: "rgb(255, 255, 255)"},
-                    {width: "34px", backgroundColor: "rgb(255, 255, 255)"},
+                    {width: "0px", backgroundColor: "rgb(245, 245, 245)"},
+                    {width: "34px", backgroundColor: "rgb(245, 245, 245)"},
                 ],
                 delay: index * 100,
             }));
@@ -50,7 +50,7 @@ function Navigation() {
             document.querySelector("nav").style.pointerEvents = "";
         }, 600)
         setHoverMenu(() => ({
-            backgroundColor: "rgb(255, 255, 255)",
+            backgroundColor: "rgb(245, 245, 245)",
             margin: "20px 0 0 20px",
             padding: "20px 14px",
             boxShadow: "0 0 0px 0 white"

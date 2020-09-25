@@ -1,6 +1,7 @@
 body {
+  background-color: whitesmoke;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Courier New', Courier, monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -81,9 +82,10 @@ nav > ul > li a {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  width: 80%;
+  width: 75%;
   height: 80px;
   margin-left: 20%;
+  margin-right: 5%;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -96,6 +98,13 @@ nav > ul > li a {
 .progress a {
   text-decoration: none;
   color: black;
+  -webkit-transition: color 0.3s, font-weight 0.3s;
+  transition: color 0.3s, font-weight 0.3s;
+}
+
+.progress a.active {
+  color: green;
+  font-weight: 700;
 }
 
 .progress a.disabled-link {
@@ -103,11 +112,25 @@ nav > ul > li a {
   color: #a5a5a5;
 }
 
-.sprzedawca h1 {
-  text-align: center;
+.progress hr {
+  border-top: 2px dashed lightgreen;
+  margin: 4px 0 0 0;
+  width: 20%;
 }
 
-.sprzedawca > div label {
+.sprzedawca h1,
+.klient h1,
+.dane h1,
+.przedmiot h1 {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 100;
+}
+
+.sprzedawca > div label,
+.klient > div label,
+.dane > div label,
+.przedmiot > div label {
   width: calc(60% - 1vw);
   display: -webkit-box;
   display: -ms-flexbox;
@@ -122,42 +145,150 @@ nav > ul > li a {
   margin: 0 auto;
 }
 
-.sprzedawca > div label span {
+.sprzedawca > div label span,
+.klient > div label span,
+.dane > div label span,
+.przedmiot > div label span {
   padding-left: 6px;
   width: 100%;
   position: relative;
   color: gray;
   font-size: 0.8em;
   font-weight: 700;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   letter-spacing: 1px;
 }
 
-.sprzedawca > div label input {
+.sprzedawca > div label input,
+.klient > div label input,
+.dane > div label input,
+.przedmiot > div label input {
   width: 100%;
   height: 46px;
   border: 0;
   outline: none;
-  -webkit-box-shadow: 0 2px 2px 0px silver;
-          box-shadow: 0 2px 2px 0px silver;
   padding-left: 10px;
   margin-top: 4px;
-  -webkit-transition: -webkit-box-shadow 0.4s;
-  transition: -webkit-box-shadow 0.4s;
-  transition: box-shadow 0.4s;
-  transition: box-shadow 0.4s, -webkit-box-shadow 0.4s;
 }
 
-.sprzedawca > div label input:focus {
-  -webkit-box-shadow: 0 1px 4px 1px #326283;
-          box-shadow: 0 1px 4px 1px #326283;
-}
-
-.sprzedawca > div > span {
+.sprzedawca > div > span,
+.klient > div > span,
+.dane > div > span,
+.przedmiot > div > span {
   margin-top: 4px;
   display: block;
   text-align: center;
   min-height: 20px;
+}
+
+.sprzedawca .navigation,
+.klient .navigation,
+.dane .navigation,
+.przedmiot .navigation {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  margin-top: 16px;
+}
+
+.sprzedawca .navigation button, .sprzedawca .navigation a,
+.klient .navigation button,
+.klient .navigation a,
+.dane .navigation button,
+.dane .navigation a,
+.przedmiot .navigation button,
+.przedmiot .navigation a {
+  background-color: #326283;
+  color: white;
+  padding: 4px 0px;
+  width: 100px;
+  text-decoration: none;
+  text-align: center;
+  font-size: 16px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border: 0;
+  cursor: pointer;
+}
+
+.sprzedawca .navigation button:disabled, .sprzedawca .navigation button.disabled, .sprzedawca .navigation a:disabled, .sprzedawca .navigation a.disabled,
+.klient .navigation button:disabled,
+.klient .navigation button.disabled,
+.klient .navigation a:disabled,
+.klient .navigation a.disabled,
+.dane .navigation button:disabled,
+.dane .navigation button.disabled,
+.dane .navigation a:disabled,
+.dane .navigation a.disabled,
+.przedmiot .navigation button:disabled,
+.przedmiot .navigation button.disabled,
+.przedmiot .navigation a:disabled,
+.przedmiot .navigation a.disabled {
+  background-color: lightsteelblue;
+  pointer-events: none;
+  cursor: default;
+}
+
+.dane .sposob-zaplaty label,
+.dane .zaplacono label,
+.dane .przedmiot > div label {
+  position: relative;
+}
+
+.dane .sposob-zaplaty label .arrow,
+.dane .zaplacono label .arrow,
+.dane .przedmiot > div label .arrow {
+  position: absolute;
+  text-align: right;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  top: 20px;
+  padding: 14px 5px;
+  right: 0px;
+  cursor: pointer;
+}
+
+.dane .sposob-zaplaty label .arrow:hover,
+.dane .zaplacono label .arrow:hover,
+.dane .przedmiot > div label .arrow:hover {
+  color: green;
+}
+
+.dane .sposob-zaplaty label > div,
+.dane .zaplacono label > div,
+.dane .przedmiot > div label > div {
+  position: absolute;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background-color: white;
+  top: 70px;
+  z-index: 1;
+}
+
+.dane .sposob-zaplaty label > div span,
+.dane .zaplacono label > div span,
+.dane .przedmiot > div label > div span {
+  padding: 6px 0;
+  text-align: center;
+  -webkit-box-shadow: 0 0 2px 0 silver;
+          box-shadow: 0 0 2px 0 silver;
+  cursor: pointer;
+}
+
+.dane .sposob-zaplaty label > div span:hover,
+.dane .zaplacono label > div span:hover,
+.dane .przedmiot > div label > div span:hover {
+  background-color: #f0f0f0;
 }
 
 @media screen and (min-width: 500px) {

@@ -6,13 +6,15 @@ function Progress() {
     const progress = useSelector(state => state.progress);
     return(
         <div className="progress">
-            <NavLink exact to="/" className={progress.p1 ? "" : "disabled-link"}>
+            <NavLink exact to="/" >
                 Sprzedawca
             </NavLink>
-            <NavLink exact to="/part2" className={progress.p2 ? "" : "disabled-link"}>
+            <hr style={{width: progress.p1 ? "20%" : "0%"}} />
+            <NavLink exact to="/part2" className={progress.p1 ? "" : "disabled-link"}>
                 Nabywca
             </NavLink>
-            <NavLink exact to="/part3" className={progress.p3 ? "" : "disabled-link"}>
+            <hr style={{width: progress.p2 ? "20%" : "0%"}} />
+            <NavLink exact to="/part3" className={progress.p2 ? "" : "disabled-link"}>
                 Dane do faktury
             </NavLink>
         </div>
