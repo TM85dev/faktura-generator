@@ -70,6 +70,7 @@ nav > ul > li {
 }
 
 nav > ul > li a {
+  width: 84px;
   color: white;
   text-decoration: none;
 }
@@ -103,7 +104,7 @@ nav > ul > li a {
 }
 
 .progress a.active {
-  color: green;
+  color: #89b0ae;
   font-weight: 700;
 }
 
@@ -113,7 +114,7 @@ nav > ul > li a {
 }
 
 .progress hr {
-  border-top: 2px dashed lightgreen;
+  border-top: 2px dashed #bee3db;
   margin: 4px 0 0 0;
   width: 20%;
 }
@@ -190,6 +191,7 @@ nav > ul > li a {
   -ms-flex-pack: distribute;
       justify-content: space-around;
   margin-top: 16px;
+  margin-bottom: 50px;
 }
 
 .sprzedawca .navigation button, .sprzedawca .navigation a,
@@ -199,7 +201,7 @@ nav > ul > li a {
 .dane .navigation a,
 .przedmiot .navigation button,
 .przedmiot .navigation a {
-  background-color: #326283;
+  background-color: #555b6e;
   color: white;
   padding: 4px 0px;
   width: 100px;
@@ -224,7 +226,7 @@ nav > ul > li a {
 .przedmiot .navigation button.disabled,
 .przedmiot .navigation a:disabled,
 .przedmiot .navigation a.disabled {
-  background-color: lightsteelblue;
+  background-color: #dbd5d5;
   pointer-events: none;
   cursor: default;
 }
@@ -289,6 +291,24 @@ nav > ul > li a {
 .dane .zaplacono label > div span:hover,
 .dane .przedmiot > div label > div span:hover {
   background-color: #f0f0f0;
+}
+
+.dane .przedmioty .przedmiot {
+  padding-top: 10px;
+}
+
+.dane .przedmioty .przedmiot > div:first-of-type {
+  margin: 16px 0 -16px 16px;
+  font-weight: 900;
+  font-size: 1.2em;
+}
+
+.dane .przedmioty .przedmiot:nth-of-type(odd) {
+  background-color: #bee3db;
+}
+
+.dane .przedmioty .przedmiot:nth-of-type(even) {
+  background-color: rgba(190, 227, 219, 0.6);
 }
 
 @media screen and (min-width: 500px) {

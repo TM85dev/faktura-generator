@@ -60,7 +60,7 @@ function Part2() {
         const dataProgress = {...progress, p2: verification()};
         setActivation(verification());
         setErrors(dataErrors);
-        dispatch(setInputs({progress: dataProgress, klientErrors: dataErrors, klient: data}))
+        dispatch(setInputs({progress: dataProgress, klientErrors: dataErrors, klient: data}));
     }
     return(
         <animated.div className="klient" style={activeAnim}>

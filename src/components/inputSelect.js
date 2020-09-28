@@ -10,14 +10,33 @@ function InputSelect({name, namePL, value, onChange, variables, error, num=""}) 
     const [toggle, setToggle] = useState(false);
     const inputRef = useRef();
     const selectHandler = (event) => {
+        const percentToNum = (value) => {
+            const arr = value.split("%");
+            return Number(arr[0]);
+        }
         const target = event.target;
-        const text = target.textContent;
+        const text = target.textContent.match(/%/) ? percentToNum(target.textContent) : target.textContent;
         const name = inputRef.current.name;
-        const dataDane = {...dane, [name]: text};
-        const dataPrzedmiot = {...przedmiot, [name]: text};
         if(typeof num === "number") {
+            const selected = przedmiot.selected_price;
+            const netto = Number(przedmiot.netto);
+            const brutto = Number(przedmiot.brutto);
+            const vat = Number(text);
+            const ilosc = Number(przedmiot.ilosc);
+            const calcBrutto = selected==="Brutto" ? brutto : (netto + (netto * vat / 100)).toFixed(2);
+            const calcNetto = selected==="Netto" ? netto : (brutto - (brutto * vat / 100)).toFixed(2);
+            const dataPrzedmiot = {
+                ...przedmiot, 
+                [name]: text,
+                ilosc: isNaN(ilosc) ? "" : ilosc,
+                netto: Number(calcNetto),
+                brutto: Number(calcBrutto),
+                wartosc_netto: Number(ilosc > 0 ? (ilosc * calcNetto) : calcNetto).toFixed(2),
+                wartosc_brutto: Number(ilosc > 0 ? (ilosc * calcBrutto) : calcBrutto).toFixed(2)
+            };
             dispatch(setItems({[num]: dataPrzedmiot}));
         } else {
+            const dataDane = {...dane, [name]: text};
             dispatch(setInputs({dane: dataDane}));
         }
     };
@@ -35,7 +54,7 @@ function InputSelect({name, namePL, value, onChange, variables, error, num=""}) 
                 <input
                     ref={inputRef}
                     value={value}
-                    onChange={onChange}
+                    onChange={selectHandler}
                     onClick={clickHandler}
                     name={name} 
                 />

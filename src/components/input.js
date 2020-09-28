@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSpring, animated } from 'react-spring';
 
-function Input({value, name, namePL, type, onChange, error}) {
+function Input({value, name, namePL, type, onChange, error, disabled=false}) {
     const [focusName, setFocusName] = useSpring(() => ({
-        top: value.length===0 && type!=="date" ? "38px" : "-2px", cursor: "text", color: "gray"
+        top: value.length===0 && type!=="date" && disabled===false ? "38px" : "-2px", cursor: "text", color: "gray"
     }));
     const [focusInput, setFocusInput] = useSpring(() => ({
         boxShadow: "0 0 2px 0px silver"
@@ -54,6 +54,7 @@ function Input({value, name, namePL, type, onChange, error}) {
                 onKeyUp={pressHandler}
                 onFocus={focusHandler}
                 onBlur={blurHandler} 
+                disabled={disabled}
             />
         </label>
         <span style={{color: "red"}}>
