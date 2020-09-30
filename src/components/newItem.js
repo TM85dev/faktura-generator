@@ -58,6 +58,12 @@ function NewItem({ num }) {
             variables: ["Netto", "Brutto"],
         },
         {
+            name: "vat",
+            namePL: "Stawka VAT",
+            value: przedmiot.vat,
+            variables: ["23%", "8%", "5%", "0%"],
+        },
+        {
             type: "number",
             value: przedmiot.netto,
             name: "netto",
@@ -70,12 +76,6 @@ function NewItem({ num }) {
             name: "brutto",
             namePL: "Cena brutto",
             disabled: przedmiot.selected_price==="Brutto" ? false : true,
-        },
-        {
-            name: "vat",
-            namePL: "Stawka VAT",
-            value: przedmiot.vat,
-            variables: ["23%", "8%", "5%", "0%"],
         }
     ]
     return (
