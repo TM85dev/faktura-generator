@@ -91,7 +91,6 @@ function MyDocument({ data }) {
       table_main: {
         display: 'flex',
         flexDirection: 'column',
-        // alignItems: "center",
         fontFamily: "OpenSans",
         fontSize: 9.5,
         margin: "0 20",
@@ -148,7 +147,6 @@ function MyDocument({ data }) {
       const dziesiatki = ["dzieścia", "dzieści", "dziesiąt"];
       const setki = ["", "sto", "dwieście", "sta", "set"];
       const tysiace = ["tysiąc", "tysiące", "tysięcy"];
-      // const miliony = ["milion", "miliony", "milionów"];
       const dziesiatkiCalc = (nr1, nr10) => {
         if(nr10 === 0) {
           if(nr1 === 0) {
@@ -251,43 +249,58 @@ function MyDocument({ data }) {
         return ""
       }
     }
+    const fixedSprzedawca = {
+      ...sprzedawca,
+      kod: `${sprzedawca.kod.slice(0, 2)}-${sprzedawca.kod.slice(2)}`,
+      nip: `${sprzedawca.nip.slice(0,3)}-${sprzedawca.nip.slice(3, 6)}-${sprzedawca.nip.slice(6, 8)}-${sprzedawca.nip.slice(8)}`,
+      telefon: `${sprzedawca.telefon.slice(0, 2)} ${sprzedawca.telefon.slice(2, 5)}-${sprzedawca.telefon.slice(5, 7)}-${sprzedawca.telefon.slice(7)}` 
+    }
+    const fixedKlient = {
+      ...klient,
+      kod: `${klient.kod.slice(0, 2)}-${klient.kod.slice(2)}`,
+      telefon: `${klient.telefon.slice(0, 2)} ${klient.telefon.slice(2, 5)}-${klient.telefon.slice(5, 7)}-${klient.telefon.slice(7)}`  
+    }
+    const fixedDane = {
+      ...dane,
+      wplacono: parseFloat(dane.wplacono),
+    }
 
     return(
       <Document style={styles.doc}>
         <Page size="A4" style={styles.page}>
           <View style={styles.top}>
             <View>
-              <Text style={styles.h1}>Faktura nr {`${sprzedawca.skrot}/${sprzedawca.nr_faktury}/2020`}</Text>
-              <Text style={styles.logo_title}>{ sprzedawca.firma }</Text>
+              <Text style={styles.h1}>Faktura nr {`${fixedSprzedawca.skrot}/${fixedSprzedawca.nr_faktury}/2020`}</Text>
+              <Text style={styles.logo_title}>{ fixedSprzedawca.firma }</Text>
             </View>
             <View>
               <Text style={styles.table_title}>Miejsce Wystawienia</Text>
-              <Text style={styles.normal_text}>{ /*data.miejsce_wystawienia*/ }</Text>
+              <Text style={styles.normal_text}>{ dane.miejsce_wystawienia }</Text>
               <View style={{marginTop: 4}}></View>
               <Text style={styles.table_title}>Data Wystawienia</Text>
-              <Text style={styles.normal_text}>{ /*data.data_wystawienia*/ }</Text>
+              <Text style={styles.normal_text}>{ dane.data_wystawienia }</Text>
             </View>
           </View>
 
           <View>
-            <Text style={styles.nr_zamowienia}>Zamówienie nr { /*data.nr_zamowienia*/ }</Text>
+            <Text style={styles.nr_zamowienia}>Zamówienie nr { dane.nr_zamowienia }</Text>
           </View>
 
           <View style={styles.dane_kontaktowe}>
             <View style={{flexBasis: '45%', margin: '0px 10px 10px 20px'}}>
               <Text style={styles.dane_kontaktowe_title}>Sprzedawca</Text>
-              <Text style={styles.dane_kontaktowe_text_bold}>{sprzedawca.firma}</Text>
-              <Text style={styles.dane_kontaktowe_text}>ul. {sprzedawca.ulica} {sprzedawca.nr}</Text>
-              <Text style={styles.dane_kontaktowe_text}>{sprzedawca.kod} {sprzedawca.miejscowosc}</Text>
-              <Text style={styles.dane_kontaktowe_text}>NIP: {sprzedawca.nip} REGON: {sprzedawca.regon}</Text>
-              <Text style={styles.dane_kontaktowe_text}>Tel: +48 {sprzedawca.telefon}</Text>
+              <Text style={styles.dane_kontaktowe_text_bold}>{fixedSprzedawca.firma}</Text>
+              <Text style={styles.dane_kontaktowe_text}>ul. {fixedSprzedawca.ulica} {fixedSprzedawca.nr}</Text>
+              <Text style={styles.dane_kontaktowe_text}>{fixedSprzedawca.kod} {fixedSprzedawca.miejscowosc}</Text>
+              <Text style={styles.dane_kontaktowe_text}>NIP: {fixedSprzedawca.nip} REGON: {fixedSprzedawca.regon}</Text>
+              <Text style={styles.dane_kontaktowe_text}>Tel: +48 {fixedSprzedawca.telefon}</Text>
             </View>
             <View style={{flexBasis: "45%", margin: '0px 20px 10px 10px'}}>
               <Text style={styles.dane_kontaktowe_title}>Nabywca</Text>
-              <Text style={styles.dane_kontaktowe_text_bold}>{klient.nazwa}</Text>
-              <Text style={styles.dane_kontaktowe_text}>ul. {klient.ulica} {klient.nr}</Text>
-              <Text style={styles.dane_kontaktowe_text}>{klient.kod} {klient.miejscowosc}</Text>
-              <Text style={styles.dane_kontaktowe_text}>Tel: +48 {klient.telefon}</Text>
+              <Text style={styles.dane_kontaktowe_text_bold}>{fixedKlient.nazwa}</Text>
+              <Text style={styles.dane_kontaktowe_text}>ul. {fixedKlient.ulica} {fixedKlient.nr}</Text>
+              <Text style={styles.dane_kontaktowe_text}>{fixedKlient.kod} {fixedKlient.miejscowosc}</Text>
+              <Text style={styles.dane_kontaktowe_text}>Tel: +48 {fixedKlient.telefon}</Text>
             </View>
           </View>
 
@@ -426,10 +439,10 @@ function MyDocument({ data }) {
               </View>
               <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: "lightgray", fontFamily: "OpenSans-Bold", fontSize: 14}}>
                 <Text>Pozostało do zapłaty: </Text>
-                <Text>{converter(suma.brutto - dane.wplacono)} PLN</Text>
+                <Text>{converter(suma.brutto - fixedDane.wplacono)} PLN</Text>
               </View>
               <View style={{fontFamily: "OpenSans", fontSize: 10}}>
-                <Text>Słownie: {slownie(suma.brutto - dane.wplacono)} zł {resztaCalc(suma.brutto - dane.wplacono)}</Text>
+                <Text>Słownie: {slownie(suma.brutto - fixedDane.wplacono)} zł {resztaCalc(suma.brutto - fixedDane.wplacono)}</Text>
               </View>
             </View>
           </View>

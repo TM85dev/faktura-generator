@@ -7,8 +7,8 @@ import Input from './input';
 
 function Part2() {
     const dispatch = useDispatch();
-    const [values, setValues] = useState(useSelector(state => state.klient));
-    const [errors, setErrors] = useState(useSelector(state => state.klientErrors));
+    const values = useSelector(state => state.klient);
+    const errors = useSelector(state => state.klientErrors);
     const [activation, setActivation] = useState(false);
     const progress = useSelector(state => state.progress);
     const dataInputs = [
@@ -34,8 +34,6 @@ function Part2() {
             return verif.length===0 ? true : false;
         };
         setActivation(activated());
-        setValues(data);
-        setErrors(dataErrors);
         dispatch(setInputs({klientErrors: dataErrors, klient: data}));
     }
     const saveChanges = () => {
@@ -50,8 +48,8 @@ function Part2() {
         const data = {
             ...values,
             nr: !isNaN(Number(values.nr)) ? values.nr : "",
-            kod: (!isNaN(Number(values.kod)) && values.kod.length===5) ? `${values.kod.slice(0, 2)}-${values.kod.slice(2)}` : "",
-            telefon: (!isNaN(Number(values.telefon)) && values.telefon.length===9) ? `${values.telefon.slice(0, 2)} ${values.telefon.slice(2, 5)}-${values.telefon.slice(5, 7)}-${values.telefon.slice(7)}` : ""  
+            kod: (!isNaN(Number(values.kod)) && values.kod.length===5) ? values.kod : "",
+            telefon: (!isNaN(Number(values.telefon)) && values.telefon.length===9) ? values.telefon : ""  
         };
         const verification = () => {
             const verif = Object.values(dataErrors).filter(errors => errors.length > 0);
@@ -59,7 +57,6 @@ function Part2() {
         };
         const dataProgress = {...progress, p2: verification()};
         setActivation(verification());
-        setErrors(dataErrors);
         dispatch(setInputs({progress: dataProgress, klientErrors: dataErrors, klient: data}));
     }
     return(

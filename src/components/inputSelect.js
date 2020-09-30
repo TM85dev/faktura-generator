@@ -3,12 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setInputs, setItems } from '../actions/index';
 
 
-function InputSelect({name, namePL, value, onChange, variables, error, num=""}) {
+function InputSelect({name, namePL, value, variables, error="", num=""}) {
     const dispatch = useDispatch();
     const dane = useSelector(state => state.dane);
     const przedmiot = useSelector(state => state.przedmioty[num]);
     const [toggle, setToggle] = useState(false);
     const inputRef = useRef();
+    const [currentValue, setCurrentValue] = useState(value);
     const selectHandler = (event) => {
         const percentToNum = (value) => {
             const arr = value.split("%");
@@ -17,26 +18,38 @@ function InputSelect({name, namePL, value, onChange, variables, error, num=""}) 
         const target = event.target;
         const text = target.textContent.match(/%/) ? percentToNum(target.textContent) : target.textContent;
         const name = inputRef.current.name;
+        setCurrentValue(text)
         if(typeof num === "number") {
             const selected = przedmiot.selected_price;
-            const netto = Number(przedmiot.netto);
-            const brutto = Number(przedmiot.brutto);
-            const vat = Number(text);
-            const ilosc = Number(przedmiot.ilosc);
+            const netto = parseFloat(przedmiot.netto);
+            const brutto = parseFloat(przedmiot.brutto);
+            const vat = parseFloat(text);
+            const ilosc = parseFloat(przedmiot.ilosc);
             const calcBrutto = selected==="Brutto" ? brutto : (netto + (netto * vat / 100)).toFixed(2);
             const calcNetto = selected==="Netto" ? netto : (brutto - (brutto * vat / 100)).toFixed(2);
             const dataPrzedmiot = {
                 ...przedmiot, 
                 [name]: text,
                 ilosc: isNaN(ilosc) ? "" : ilosc,
-                netto: Number(calcNetto),
-                brutto: Number(calcBrutto),
-                wartosc_netto: Number(ilosc > 0 ? (ilosc * calcNetto) : calcNetto).toFixed(2),
-                wartosc_brutto: Number(ilosc > 0 ? (ilosc * calcBrutto) : calcBrutto).toFixed(2)
+                netto: isNaN(calcNetto) ? "" : parseFloat(calcNetto),
+                brutto: isNaN(calcBrutto) ? "" : parseFloat(calcBrutto),
+                wartosc_netto: isNaN(calcNetto) ? "" : parseFloat(ilosc > 0 ? (ilosc * calcNetto) : calcNetto).toFixed(2),
+                wartosc_brutto: isNaN(calcBrutto) ? "" : parseFloat(ilosc > 0 ? (ilosc * calcBrutto) : calcBrutto).toFixed(2)
             };
             dispatch(setItems({[num]: dataPrzedmiot}));
         } else {
-            const dataDane = {...dane, [name]: text};
+            const termin = () => {
+                const data = new Date(dane.data_wystawienia).getTime();
+                const termin = new Date(dane.termin_zaplaty).getTime();
+                const dni = (termin - data) / 86400000
+                return dni
+            }
+            const dataDane = {
+                ...dane, 
+                [name]: text,
+                wplacono: isNaN(dane.wplacono) ? "" : dane.wplacono,
+                dni_do_zaplaty: (name==="zaplacono" && text==="tak") ? 0 : termin()
+            };
             dispatch(setInputs({dane: dataDane}));
         }
     };
@@ -46,6 +59,7 @@ function InputSelect({name, namePL, value, onChange, variables, error, num=""}) 
     const leaveHandler = () => {
         setToggle(false);
     }
+
     return (
         <>
             <label>
@@ -53,10 +67,11 @@ function InputSelect({name, namePL, value, onChange, variables, error, num=""}) 
                 <span className="arrow">&#11167;</span>
                 <input
                     ref={inputRef}
-                    value={value}
+                    value={currentValue}
                     onChange={selectHandler}
                     onClick={clickHandler}
                     name={name} 
+                    autoComplete="off"
                 />
                 <div style={{display: toggle ? "" : "none"}} onMouseLeave={leaveHandler}>
                     {variables.map(item => (

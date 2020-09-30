@@ -83,10 +83,9 @@ nav > ul > li a {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  width: 75%;
-  height: 80px;
+  height: 100px;
   margin-left: 20%;
-  margin-right: 5%;
+  margin-right: 20%;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -101,6 +100,8 @@ nav > ul > li a {
   color: black;
   -webkit-transition: color 0.3s, font-weight 0.3s;
   transition: color 0.3s, font-weight 0.3s;
+  white-space: nowrap;
+  display: block;
 }
 
 .progress a.active {
@@ -231,6 +232,165 @@ nav > ul > li a {
   cursor: default;
 }
 
+@media screen and (min-width: 900px) {
+  .sprzedawca > div:nth-of-type(4),
+  .sprzedawca > div:nth-of-type(6) {
+    display: inline-block;
+    width: 60%;
+    float: left;
+  }
+  .sprzedawca > div:nth-of-type(4) label,
+  .sprzedawca > div:nth-of-type(6) label {
+    margin: 0 0 0 34%;
+  }
+  .sprzedawca > div:nth-of-type(4) > span,
+  .sprzedawca > div:nth-of-type(6) > span {
+    width: 60%;
+    margin: 0 0 0 34%;
+  }
+  .sprzedawca > div:nth-of-type(5),
+  .sprzedawca > div:nth-of-type(7) {
+    display: inline-block;
+    width: 35%;
+    float: right;
+  }
+  .sprzedawca > div:nth-of-type(5) label,
+  .sprzedawca > div:nth-of-type(7) label {
+    margin: 0 0 0 -15%;
+  }
+  .sprzedawca > div:nth-of-type(5) > span,
+  .sprzedawca > div:nth-of-type(7) > span {
+    width: 60%;
+    margin: 0 0 0 -16%;
+  }
+  .sprzedawca > div:nth-of-type(5) > span,
+  .sprzedawca > div:nth-of-type(7) > span {
+    clear: both;
+  }
+  .sprzedawca > div:nth-of-type(8) {
+    display: inline-block;
+    width: 48%;
+    float: left;
+  }
+  .sprzedawca > div:nth-of-type(8) label {
+    margin: 0 0 0 43%;
+  }
+  .sprzedawca > div:nth-of-type(8) > span {
+    width: 60%;
+    margin: 0 0 0 42%;
+  }
+  .sprzedawca > div:nth-of-type(9) {
+    display: inline-block;
+    width: 48%;
+    float: right;
+  }
+  .sprzedawca > div:nth-of-type(9) label {
+    margin: 0;
+  }
+  .sprzedawca > div:nth-of-type(9) > span {
+    width: 60%;
+    margin: 0;
+  }
+  .sprzedawca > div:nth-of-type(9) > span {
+    clear: both;
+  }
+  .klient > div:nth-of-type(2),
+  .klient > div:nth-of-type(4) {
+    display: inline-block;
+    width: 60%;
+    float: left;
+  }
+  .klient > div:nth-of-type(2) label,
+  .klient > div:nth-of-type(4) label {
+    margin: 0 0 0 34%;
+  }
+  .klient > div:nth-of-type(2) > span,
+  .klient > div:nth-of-type(4) > span {
+    width: 60%;
+    margin: 0 0 0 34%;
+  }
+  .klient > div:nth-of-type(3),
+  .klient > div:nth-of-type(5) {
+    display: inline-block;
+    width: 35%;
+    float: right;
+  }
+  .klient > div:nth-of-type(3) label,
+  .klient > div:nth-of-type(5) label {
+    margin: 0 0 0 -15%;
+  }
+  .klient > div:nth-of-type(3) > span,
+  .klient > div:nth-of-type(5) > span {
+    width: 60%;
+    margin: 0 0 0 -16%;
+  }
+  .klient > div:nth-of-type(3) > span,
+  .klient > div:nth-of-type(5) > span {
+    clear: both;
+  }
+  .dane > div:nth-of-type(1),
+  .dane > div:nth-of-type(5) {
+    display: inline-block;
+    width: 60%;
+    float: left;
+  }
+  .dane > div:nth-of-type(1) label,
+  .dane > div:nth-of-type(5) label {
+    margin: 0 0 0 34%;
+  }
+  .dane > div:nth-of-type(1) > span,
+  .dane > div:nth-of-type(5) > span {
+    width: 60%;
+    margin: 0 0 0 34%;
+  }
+  .dane > div:nth-of-type(2),
+  .dane > div:nth-of-type(6) {
+    display: inline-block;
+    width: 35%;
+    float: right;
+  }
+  .dane > div:nth-of-type(2) label,
+  .dane > div:nth-of-type(6) label {
+    margin: 0 0 0 -15%;
+  }
+  .dane > div:nth-of-type(2) > span,
+  .dane > div:nth-of-type(6) > span {
+    width: 60%;
+    margin: 0 0 0 -16%;
+  }
+  .dane > div:nth-of-type(2) > span,
+  .dane > div:nth-of-type(6) > span {
+    clear: both;
+  }
+  .dane > div:nth-of-type(3) {
+    display: inline-block;
+    width: 48%;
+    float: left;
+  }
+  .dane > div:nth-of-type(3) label {
+    margin: 0 0 0 43%;
+  }
+  .dane > div:nth-of-type(3) > span {
+    width: 60%;
+    margin: 0 0 0 42%;
+  }
+  .dane > div:nth-of-type(4) {
+    display: inline-block;
+    width: 48%;
+    float: right;
+  }
+  .dane > div:nth-of-type(4) label {
+    margin: 0;
+  }
+  .dane > div:nth-of-type(4) > span {
+    width: 60%;
+    margin: 0;
+  }
+  .dane > div:nth-of-type(4) > span {
+    clear: both;
+  }
+}
+
 .dane .sposob-zaplaty label,
 .dane .zaplacono label,
 .dane .przedmiot > div label {
@@ -311,14 +471,24 @@ nav > ul > li a {
   background-color: rgba(190, 227, 219, 0.6);
 }
 
-@media screen and (min-width: 500px) {
+.dane .disabled-termin {
+  pointer-events: none;
+}
+
+.dane .disabled-termin input {
+  background-color: lightgray;
+  color: gray;
+}
+
+@media screen and (min-width: 630px) {
   .progress {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
         -ms-flex-direction: row;
             flex-direction: row;
-    -ms-flex-pack: distribute;
-        justify-content: space-around;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
   }
 }
 /*# sourceMappingURL=index.css.map */

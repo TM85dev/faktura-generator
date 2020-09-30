@@ -12,7 +12,6 @@ function Part3() {
     const dane = useSelector(state => state.dane);
     const errors = useSelector(state => state.daneErrors);
     const przedmioty = useSelector(state => state.przedmioty);
-    const [activation, setActivation] = useState(false);
     const progress = useSelector(state => state.progress);
     const [inputElements, setInputElements] = useState("");
 
@@ -31,14 +30,9 @@ function Part3() {
         const data = {
             ...dane,
             [name]: value,
-            wplacono: isNaN(inputs.wplacono) ? "" : Number(inputs.wplacono),
+            wplacono: isNaN(inputs.wplacono) ? "" : inputs.wplacono,
             dni_do_zaplaty: (name==="zaplacono" && value==="tak") ? 0 : termin()
         }
-        const activated = () => {
-            const verif = Object.values(dataErrors).filter(errors => errors.length > 0);
-            return verif.length===0 ? true : false;
-        };
-        setActivation(activated());
         dispatch(setInputs({daneErrors: dataErrors, dane: data}));
     }
     const addNewItem = () => {
@@ -132,19 +126,66 @@ function Part3() {
         dispatch(setInputs({progress: dataProgress, daneErrors: dataErrors, suma: {...parsedData}}))
     }
     const dataInputs = [
-        {inputName: "Miejsce wystawienia", valueName: dane.miejsce_wystawienia, name: "miejsce_wystawienia", type: "text", error: errors.miejsce_wystawienia},
-        {inputName: "Data wystawienia", valueName: dane.data_wystawienia, name: "data_wystawienia", type: "date", error: errors.data_wystawienia},
-        {inputName: "Nr zamówienia", valueName: dane.nr_zamowienia, name: "nr_zamowienia", type: "text", error: errors.nr_zamowienia},
-        {inputName: "Termin zapłaty", valueName: dane.termin_zaplaty, name: "termin_zaplaty", type: "date", error: errors.termin_zaplaty},
-        {inputName: "Wpłacono", valueName: dane.wplacono, name: "wplacono", type: "text", error: errors.wplacono}
+        {
+            inputName: "Miejsce wystawienia", 
+            valueName: dane.miejsce_wystawienia, 
+            name: "miejsce_wystawienia", 
+            type: "text", 
+            error: errors.miejsce_wystawienia
+        },
+        {
+            inputName: "Data wystawienia", 
+            valueName: dane.data_wystawienia, 
+            name: "data_wystawienia", 
+            type: "date", 
+            error: errors.data_wystawienia
+        },
+        {
+            inputName: "Sposób zapłaty",
+            valueName: dane.sposob_zaplaty,
+            name: "sposob_zaplaty",
+            error: errors.sposob_zaplaty,
+            className: "sposob-zaplaty",
+            variables: ["przelew", "gotówka"]
+        },
+        {
+            inputName: "Zapłacono",
+            valueName: dane.zaplacono,
+            name: "zaplacono",
+            error: errors.zaplacono,
+            className: "zaplacono",
+            variables: ["tak", "nie"]
+        },
+        {
+            inputName: "Nr zamówienia", 
+            valueName: dane.nr_zamowienia, 
+            name: "nr_zamowienia", 
+            type: "text", 
+            error: errors.nr_zamowienia
+        },
+        {
+            inputName: "Termin zapłaty", 
+            valueName: dane.termin_zaplaty, 
+            name: "termin_zaplaty", 
+            type: "date", 
+            error: errors.termin_zaplaty
+        },
+        {
+            inputName: "Wpłacono", 
+            valueName: dane.wplacono, 
+            name: "wplacono", 
+            type: "number", 
+            error: errors.wplacono
+        },
 
     ];
 
     return(
         <div className="dane">
             <h1>Dane do faktury</h1>
-            {dataInputs.slice(0, 2).map(item => (
-                <div key={item.name}>
+            {dataInputs.map((item, index) => (
+                item.type ? 
+                <div key={index} className={`${item.name==="termin_zaplaty" ? (dane.zaplacono==="nie" ? "" : "disabled-termin") : ""}`}>
                     <Input 
                         type={item.type}
                         value={item.valueName}
@@ -153,14 +194,23 @@ function Part3() {
                         onChange={changeHandler}
                         error={item.error}
                     />
-                </div>
+                </div> :
+                <div key={index} className={item.className}>
+                    <InputSelect 
+                        name={item.name}
+                        namePL={item.inputName.toUpperCase()}
+                        value={item.valueName}
+                        variables={item.variables}
+                        error={item.error}
+                    />
+            </div>
+                
             ))}
-            <div className="sposob-zaplaty">
+            {/* <div className="sposob-zaplaty">
                 <InputSelect 
                     name="sposob_zaplaty"
                     namePL="Sposób zapłaty"
                     value={dane.sposob_zaplaty}
-                    onChange={changeHandler}
                     variables={["przelew", "gotówka"]}
                     error={errors.sposob_zaplaty}
                 />
@@ -170,12 +220,11 @@ function Part3() {
                     name="zaplacono"
                     namePL="Zapłacono"
                     value={dane.zaplacono}
-                    onChange={changeHandler}
                     variables={["tak", "nie"]}
                     error={errors.zaplacono}
                 />
-            </div>
-            {dataInputs.slice(2).map((item, index) => (
+            </div> */}
+            {/* {dataInputs.slice(2).map((item, index) => (
                 <div key={index} style={{display: `${index===1 ? (dane.zaplacono==="nie" ? "" : "none") : ""}`}}>
                     <Input 
                         type={item.type}
@@ -186,7 +235,7 @@ function Part3() {
                         error={item.error}
                     />
                 </div>
-            ))}
+            ))} */}
             <div className="przedmioty">
                 {inputElements}
             </div>

@@ -8,8 +8,8 @@ import Input from './input';
 
 function Home() {
     const dispatch = useDispatch();
-    const [values, setValues] = useState(useSelector(state => state.sprzedawca));
-    const [errors, setErrors] = useState(useSelector(state => state.sprzedawcaErrors));
+    const values = useSelector(state => state.sprzedawca);
+    const errors = useSelector(state => state.sprzedawcaErrors);
     const [activation, setActivation] = useState(false);
     const progress = useSelector(state => state.progress);
     const dataInputs = [
@@ -39,8 +39,6 @@ function Home() {
             return verif.length===0 ? true : false;
         }
         setActivation(activated());
-        setErrors(dataErrors);
-        setValues(data);
         dispatch(setInputs({sprzedawcaErrors: dataErrors, sprzedawca: data}));
     }
 
@@ -61,10 +59,10 @@ function Home() {
             ...values,
             skrot: values.skrot.toUpperCase(),
             nr: !isNaN(Number(values.nr)) ? values.nr : "",
-            kod: (!isNaN(Number(values.kod)) && values.kod.length===5) ? `${values.kod.slice(0, 2)}-${values.kod.slice(2)}` : "",
-            nip: (!isNaN(Number(values.nip)) && values.nip.length===10) ? `${values.nip.slice(0,3)}-${values.nip.slice(3, 6)}-${values.nip.slice(6, 8)}-${values.nip.slice(8)}` : "",
+            kod: (!isNaN(Number(values.kod)) && values.kod.length===5) ? values.kod : "",
+            nip: (!isNaN(Number(values.nip)) && values.nip.length===10) ? values.nip : "",
             regon: (!isNaN(Number(values.regon)) && (values.regon.length===9 || values.regon.length===14)) ? values.regon : "",
-            telefon: (!isNaN(Number(values.telefon)) && values.telefon.length===9) ? `${values.telefon.slice(0, 2)} ${values.telefon.slice(2, 5)}-${values.telefon.slice(5, 7)}-${values.telefon.slice(7)}` : "" 
+            telefon: (!isNaN(Number(values.telefon)) && values.telefon.length===9) ? values.telefon : "" 
         }
         const verification = () => {
             const verif = Object.values(dataErrors).filter(errors => errors.length > 0);
@@ -72,7 +70,6 @@ function Home() {
         };
         const dataProgress = {...progress, p1: verification()};
         setActivation(verification());
-        setErrors(dataErrors);
         dispatch(setInputs({progress: dataProgress, sprzedawcaErrors: dataErrors, sprzedawca: data}));
     }
 
@@ -95,7 +92,6 @@ function Home() {
                 <button onClick={saveInputs} disabled={!activation}> zapisz </button>
                 <NavLink exact to="/part2" className={progress.p1 ? "" : "disabled"}>dalej</NavLink>
             </div>
-            <NavLink exact to="/pdf">Generate PDF</NavLink>
         </animated.div>
     )
 }
