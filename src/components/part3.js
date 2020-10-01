@@ -117,6 +117,8 @@ function Part3() {
             termin_zaplaty: dane.termin_zaplaty.length!==0 || dane.zaplacono==="tak" ? "" : "uzupełnij",
             dni_do_zaplaty: dane.dni_do_zaplaty.length!==0 ? "" : "uzupełnij",
             wplacono: dane.wplacono.length!==0 ? "" : "uzupełnij",
+            nazwa_banku: dane.nazwa_banku.length!==0 ? "" : "uzupełnij",
+            nr_konta: isNaN(dane.nr_konta) ? "nieprawidłowy numer" : (dane.nr_konta.length!==0 ? "" : "uzupełnij")
         }
         const verification = () => {
             const verif = Object.values(dataErrors).filter(errors => errors.length > 0);
@@ -177,6 +179,20 @@ function Part3() {
             type: "number", 
             error: errors.wplacono
         },
+        {
+            inputName: "Nazwa banku",
+            valueName: dane.nazwa_banku,
+            name: "nazwa_banku",
+            type: "text",
+            error: errors.nazwa_banku
+        },
+        {
+            inputName: "Nr konta",
+            valueName: dane.nr_konta,
+            name: "nr_konta",
+            type: "text",
+            error: errors.nr_konta
+        }
 
     ];
 

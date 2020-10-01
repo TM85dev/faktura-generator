@@ -34,7 +34,9 @@ const stateValues = {
         zaplacono: "wybierz",
         termin_zaplaty: "",
         dni_do_zaplaty: "",
-        wplacono: ""
+        wplacono: "",
+        nazwa_banku: "",
+        nr_konta: ""
     },
     przedmioty: {},
     sprzedawcaErrors: {
