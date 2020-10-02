@@ -1,36 +1,12 @@
 import React from 'react';
 import { Text, View, StyleSheet, Font } from '@react-pdf/renderer';
+import Bank from './bank';
 
 function Summary({dane, suma}) {
     Font.register({family: 'OpenSans-Bold', src: require('../../fonts/OpenSans-Bold.ttf')});
     Font.register({family: 'OpenSans', src: require('../../fonts/OpenSans-Regular.ttf')});
     const styles = StyleSheet.create({
         block: {display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "5 20"},
-        left: {width: "49%", fontFamily: "OpenSans", fontSize: 9.5},
-        sposob_zaplaty: {
-            display: "Flex", 
-            flexDirection: "row", 
-            justifyContent: "space-between", 
-            borderTop: 1, 
-            borderBottom: 1
-        },
-        termin_zaplaty: {
-            display: "flex", 
-            flexDirection: "row", 
-            justifyContent: "space-between", 
-            borderBottom: 1
-        },
-        bank: {
-            marginTop: 30, 
-            display: "flex", 
-            borderTop: 1, 
-            borderBottom: 1, 
-            padding: "4 2", 
-            fontFamily: "OpenSans", 
-            fontSize: 9.5
-        },
-        bank_nazwa: {display: "flex", flexDirection: "row", justifyContent: "space-between"},
-        bank_nr: {display: "flex", flexDirection: "row", justifyContent: "space-between"},
         right: {width: "49%", display: "flex"},
         razem_zaplata: {
             display: "flex", 
@@ -63,10 +39,7 @@ function Summary({dane, suma}) {
         },
         slownie: {fontFamily: "OpenSans", fontSize: 10}
     });
-    const termin = () => {
-        const data = dane.termin_zaplaty.split("-");
-        return `${data[2]}.${data[1]}.${data[0]}`
-    }
+
     const converter = (value) => {
         return Number(value).toFixed(2);
     }
@@ -186,26 +159,7 @@ function Summary({dane, suma}) {
 
     return(
         <View style={styles.block}>
-            <View style={styles.left}>
-                <View style={styles.sposob_zaplaty}>
-                    <Text>Sposób zapłaty: </Text>
-                    <Text>{dane.sposob_zaplaty} {dane.dni_do_zaplaty} dni</Text>
-                </View>
-                <View style={styles.termin_zaplaty}>
-                    <Text>Termin zapłaty:</Text>
-                    <Text>{termin()}</Text>
-                </View>
-                <View style={styles.bank}>
-                    <View style={styles.bank_nazwa}>
-                        <Text>Numer</Text>
-                        <Text>Alior Bank</Text>
-                    </View>
-                    <View style={styles.bank_nr}>
-                        <Text>rachunku</Text>
-                        <Text>12321432 34234 2342 34</Text>
-                    </View>
-                </View>
-            </View>
+            <Bank dane={dane} />
 
             <View style={styles.right}>
                 <View style={styles.razem_zaplata}>

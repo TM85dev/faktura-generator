@@ -32,8 +32,8 @@ const stateValues = {
         nr_zamowienia: "",
         sposob_zaplaty: "wybierz",
         zaplacono: "wybierz",
-        termin_zaplaty: "",
-        dni_do_zaplaty: "",
+        termin_zaplaty: 0,
+        dni_do_zaplaty: 0,
         wplacono: "",
         nazwa_banku: "",
         nr_konta: ""

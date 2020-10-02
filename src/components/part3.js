@@ -24,8 +24,8 @@ function Part3() {
         const termin = () => {
             const data = new Date(inputs.data_wystawienia).getTime();
             const termin = new Date(inputs.termin_zaplaty).getTime();
-            const dni = (termin - data) / 86400000
-            return dni
+            const dni = (termin - data) / 86400000;
+            return dni<=0 ? 0 : dni;
         }
         const data = {
             ...dane,
@@ -190,7 +190,7 @@ function Part3() {
             inputName: "Nr konta",
             valueName: dane.nr_konta,
             name: "nr_konta",
-            type: "text",
+            type: "number",
             error: errors.nr_konta
         }
 

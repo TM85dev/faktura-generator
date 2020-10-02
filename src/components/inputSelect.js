@@ -41,8 +41,8 @@ function InputSelect({name, namePL, value, variables, error="", num=""}) {
             const termin = () => {
                 const data = new Date(dane.data_wystawienia).getTime();
                 const termin = new Date(dane.termin_zaplaty).getTime();
-                const dni = (termin - data) / 86400000
-                return dni
+                const dni = (termin - data) / 86400000;
+                return dni<=0 ? 0 : dni;
             }
             const dataDane = {
                 ...dane, 
