@@ -76,7 +76,7 @@ function Part2() {
             ))}
             <div className="navigation">
                 <button onClick={saveChanges} disabled={!activation}> zapisz </button>
-                <NavLink exact to="/part3" className={progress.p2 ? "" : "disabled"}>dalej</NavLink>
+                <NavLink exact to="/faktura/part3" className={progress.p2 ? "" : "disabled"}>dalej</NavLink>
             </div>
         </animated.div>
     )

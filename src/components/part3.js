@@ -219,39 +219,8 @@ function Part3() {
                         variables={item.variables}
                         error={item.error}
                     />
-            </div>
-                
-            ))}
-            {/* <div className="sposob-zaplaty">
-                <InputSelect 
-                    name="sposob_zaplaty"
-                    namePL="Sposób zapłaty"
-                    value={dane.sposob_zaplaty}
-                    variables={["przelew", "gotówka"]}
-                    error={errors.sposob_zaplaty}
-                />
-            </div>
-            <div className="zaplacono">
-                <InputSelect 
-                    name="zaplacono"
-                    namePL="Zapłacono"
-                    value={dane.zaplacono}
-                    variables={["tak", "nie"]}
-                    error={errors.zaplacono}
-                />
-            </div> */}
-            {/* {dataInputs.slice(2).map((item, index) => (
-                <div key={index} style={{display: `${index===1 ? (dane.zaplacono==="nie" ? "" : "none") : ""}`}}>
-                    <Input 
-                        type={item.type}
-                        value={item.valueName}
-                        name={item.name}
-                        namePL={item.inputName.toUpperCase()}
-                        onChange={changeHandler}
-                        error={item.error}
-                    />
                 </div>
-            ))} */}
+            ))}
             <div className="przedmioty">
                 {inputElements}
             </div>
@@ -260,7 +229,7 @@ function Part3() {
                 <button onClick={saveInputs}>zapisz</button>
             </div>
             <div className="navigation">
-                <NavLink style={{width: "160px"}} exact to="/pdf" className={progress.p3 ? "" : "disabled"}>wygeneruj fakturę</NavLink>
+                <NavLink style={{width: "160px"}} exact to="/faktura/pdf" className={progress.p3 ? "" : "disabled"}>wygeneruj fakturę</NavLink>
             </div>
         </div>
     )

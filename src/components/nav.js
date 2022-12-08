@@ -8,11 +8,11 @@ function Navigation() {
     const [clickedMenu, setClickedMenu] = useState(false);
     const progress = useSelector(state => state.progress);
     const links = [
-        {name: "Home Page", path: "/", active: true},
-        {name: "Sprzedawca", path: "/", active: true},
-        {name: "Nabywca", path: "/part2", active: progress.p1 ? true : false},
-        {name: "Dane", path: "/part3", active: progress.p2 ? true : false},
-        {name: "Faktura", path: "/pdf", active: progress.p3 ? true : false}
+        {name: "Home Page", path: "/faktura/", active: true},
+        {name: "Sprzedawca", path: "/faktura/", active: true},
+        {name: "Nabywca", path: "/faktura/part2", active: progress.p1 ? true : false},
+        {name: "Dane", path: "/faktura/part3", active: progress.p2 ? true : false},
+        {name: "Faktura", path: "/faktura/pdf", active: progress.p3 ? true : false}
     ];
     const [hoverMenu, setHoverMenu] = useSpring(() => ({
         backgroundColor: "rgba(245, 245, 245, 0)",

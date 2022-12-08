@@ -90,7 +90,7 @@ function Home() {
             ))}
             <div className="navigation">
                 <button onClick={saveInputs} disabled={!activation}> zapisz </button>
-                <NavLink exact to="/part2" className={progress.p1 ? "" : "disabled"}>dalej</NavLink>
+                <NavLink exact to="/faktura/part2" className={progress.p1 ? "" : "disabled"}>dalej</NavLink>
             </div>
         </animated.div>
     )

@@ -16,19 +16,19 @@ function App() {
       <Router>
         <Navigation />
         <Switch>
-          <Route exact path="/">
+          <Route exact path="/faktura/">
             <Progress />
             <Home />
           </Route>
-          <Route exact path="/part2">
+          <Route exact path="/faktura/part2">
             <Progress />
             <Part2 />
           </Route>
-          <Route exact path="/part3">
+          <Route exact path="/faktura/part3">
             <Progress />
             <Part3 />
           </Route>
-          <Route exact path="/pdf">
+          <Route exact path="/faktura/pdf">
             <div className="pdf-file">
               <PDFViewer width="100%" height="100%">
                 <MyDocument data={data} />      
